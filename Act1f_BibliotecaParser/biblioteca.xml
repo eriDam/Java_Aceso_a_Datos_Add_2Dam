@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<biblioteca>
+	<libro>
+		<titulo anyo="2008">Introduction to Linux</titulo>
+		<autor>Machtelt &amp; Garrels</autor>
+		<editor>O'Reilly</editor>
+		<paginas>256</paginas>
+	</libro>
+	<libro>
+		<titulo anyo="1991">El lenguaje de programación C</titulo>
+		<autor>Kernighan &amp; Ritchie</autor>
+		<editor>Prentice Hall</editor>
+		<paginas>294</paginas>
+	</libro>
+</biblioteca>

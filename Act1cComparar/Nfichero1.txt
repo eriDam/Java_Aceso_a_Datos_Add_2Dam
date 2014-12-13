@@ -1,0 +1,3 @@
+Este es el texto del primero.
+Este texto será igual.
+Si tienes esta linea no eres igual. 
