@@ -12,12 +12,13 @@ public class TestPersistencia {
 		
 	public static void main(String[] args) throws RollbackException, Exception {
 
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("UnitPersonas");
-		EntityManager em = emf.createEntityManager();	
-		Persona p=null;
+		
 				
 		
 		try {
+		    EntityManagerFactory emf = Persistence.createEntityManagerFactory("UnitPersonas");
+			EntityManager em = emf.createEntityManager();	
+			Persona p=null;
 			//Creo Empresa
 			System.out.println("Creando Empresa...");
 			em.getTransaction().begin();
@@ -44,9 +45,10 @@ public class TestPersistencia {
 			
 		} catch (Exception ex) {
 			ex.printStackTrace();
-		} finally {
-			em.close();
-		}	     
+		} 
+		//finally {
+		//	em.close();
+		//}	     
 
 	}
 	 
