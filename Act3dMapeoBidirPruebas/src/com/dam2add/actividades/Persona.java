@@ -53,7 +53,6 @@ public class Persona implements Serializable {
 		dni = d;
 		edad = e;
 		nombre = n;
-		//retribucion = retr;
 		nombreE = nomE;
 		
 	}

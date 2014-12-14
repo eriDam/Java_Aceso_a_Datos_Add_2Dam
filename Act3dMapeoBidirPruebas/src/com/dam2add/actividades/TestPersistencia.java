@@ -26,7 +26,7 @@ public class TestPersistencia {
 			//Creo Empresa
 			System.out.println("Creando Empresa...");
 			Empresa e = new Empresa("El corte");
-			em.getTransaction().begin();
+			em.getTransaction().begin();//se activa la transaccion mediante el método begin 
 			em.persist(e);			
 			em.getTransaction().commit();
 			System.out.println("***Empresa creada ok***");
@@ -36,7 +36,7 @@ public class TestPersistencia {
 			System.out.println("Creando persona...");
 		    Persona p1=new Persona ("29204528w",32,"Eri",e);	
 			em.getTransaction().begin();//se activa la transaccion mediante el método begin 
-			em.persist(p1);//va a almacenar la informacion de p en la bd, el persist se utiliza para persistir nuevas entidades en la bd
+			em.persist(p1);//va a almacenar la informacion de p1 en la bd, el persist se utiliza para persistir nuevas entidades en la bd
 			em.getTransaction().commit();//y finaliza cuando hay un commit
 			System.out.println("***Persona creada***"); 
 			p1.print();

@@ -2,6 +2,8 @@ package com.dam2add.actividades;
 
 import java.io.Serializable;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
@@ -9,6 +11,7 @@ public class Nomina implements Serializable{
 	//utilizamos el id para decir que será dni clave primaria, para marcar el atributo de la clase
 	@Id
 	private int retribucion;
+	 
 	
 	//una relación de uno a uno 
 	@OneToOne

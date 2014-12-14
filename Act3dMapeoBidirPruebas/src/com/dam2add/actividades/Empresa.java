@@ -11,8 +11,6 @@ import javax.persistence.OneToMany;
 public class Empresa implements Serializable {
 			//utilizamos el id para decir que será dni clave primaria, para marcar el atributo de la clase
 			@Id
-			//@GeneratedValue(strategy=GenerationType.SEQUENCE)
-			//private long id;
 			private String nombre;
 			
 			//OneToMany es una de las anotaciones mas habituales a nivel de JPA y se encarga de generar
