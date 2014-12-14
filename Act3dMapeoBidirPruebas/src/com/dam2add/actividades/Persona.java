@@ -43,18 +43,18 @@ public class Persona implements Serializable {
 	//referencia a que la relación ya fue construida por la otra clase “Empresa” a traves de su variable “persona”
 	@OneToOne(mappedBy = "persona")
 	private Nomina retribucion;
-	private List<Empresa> listaEmpresas;
+	//private List<Empresa> listaEmpresas;
 	
 	public Persona() {
 		
 	}
 	//Constructor al que le paso Nomina y List empresas
-	public Persona(String d, int e,String n, Nomina retr, List<Empresa> empresas) {
+	public Persona(String d, int e,String n, Nomina retr, Empresa nomE) {
 		dni = d;
 		edad = e;
 		nombre = n;
 		retribucion = retr;
-		listaEmpresas = empresas;
+		nombreE = nomE;
 		
 	}
 	
@@ -74,13 +74,9 @@ public class Persona implements Serializable {
 		this.retribucion = retribucion;
 	}
 
-	public List<Empresa> getListaEmpresas() {
-		return listaEmpresas;
-	}
+	 
 
-	public void setListaEmpresas(List<Empresa> listaEmpresas) {
-		this.listaEmpresas = listaEmpresas;
-	}
+	 
 
 	public String getDni() {
 	 return dni;

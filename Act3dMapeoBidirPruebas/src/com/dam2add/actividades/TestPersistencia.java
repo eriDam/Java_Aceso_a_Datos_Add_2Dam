@@ -8,26 +8,16 @@ import javax.persistence.Query;
 import javax.persistence.RollbackException;
  
 
-public class Test {
+public class TestPersistencia {
 		
 	public static void main(String[] args) throws RollbackException, Exception {
 
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("UnitPersonas");
 		EntityManager em = emf.createEntityManager();	
-		
+		Persona p=null;
 				
 		
 		try {
-			//creo persona
-			System.out.println("Creando persona...");
-			Persona p=new Persona ("29204528w",32,"Eri", null, null );	
-			em.getTransaction().begin();//se activa la transaccion mediante el método begin 
-			em.persist(p);//va a almacenar la informacion de p en la bd, el persist se utiliza para persistir nuevas entidades en la bd
-			em.getTransaction().commit();//y finaliza cuando hay un commit
-			System.out.println("***Persona creada***"); 
-			p.print();
-			 
-			
 			//Creo Empresa
 			System.out.println("Creando Empresa...");
 			em.getTransaction().begin();
@@ -40,6 +30,18 @@ public class Test {
 			em.getTransaction().commit();
 			System.out.println("***Empresa creada ok***");
 			e.print();
+			
+			//creo persona
+			System.out.println("Creando persona...");
+		    p=new Persona ("29204528w",32,"Eri", nom,e);	
+			em.getTransaction().begin();//se activa la transaccion mediante el método begin 
+			em.persist(p);//va a almacenar la informacion de p en la bd, el persist se utiliza para persistir nuevas entidades en la bd
+			em.getTransaction().commit();//y finaliza cuando hay un commit
+			System.out.println("***Persona creada***"); 
+			p.print();
+			 
+			
+			
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
