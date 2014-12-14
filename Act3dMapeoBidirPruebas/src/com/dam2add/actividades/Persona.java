@@ -49,11 +49,11 @@ public class Persona implements Serializable {
 		
 	}
 	//Constructor al que le paso Nomina y List empresas
-	public Persona(String d, int e,String n, Nomina retr, Empresa nomE) {
+	public Persona(String d, int e,String n, Empresa nomE) {
 		dni = d;
 		edad = e;
 		nombre = n;
-		retribucion = retr;
+		//retribucion = retr;
 		nombreE = nomE;
 		
 	}
