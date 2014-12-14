@@ -33,7 +33,7 @@ public static void main(String[] args)throws RollbackException, Exception {
 				gp.deletePersona(ps);
 				
 				//Usamos para recuperar
-				Empresa e = new Empresa(1,"Desarrollo Jpa");
+				Empresa e = new Empresa("Desarrollo Jpa");
 				p.addEmpresa(e);
 				p.getListaEmpresa();
 				gp.recuperarEmpresas();

@@ -5,6 +5,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 
 public class Empresa implements Serializable {
@@ -14,18 +15,18 @@ public class Empresa implements Serializable {
 		private int id;
 		private String nombre;
 		
-		//ManyToOne es una de las anotaciones mas habituales a nivel de JPA y se encarga de generar
-		//una relación de muchos a uno 
-		@ManyToOne
+		//OneToMany es una de las anotaciones mas habituales a nivel de JPA y se encarga de generar
+		//una relación de uno a muchos 
+		@OneToMany
 		//JoinColumn:Esta anotación sirve en JPA para hacer referencia a la columna que es clave externa en la tabla
 		//y que se encarga de definir la relación . En este caso la
 		//tabla Empresa contendrá una columna persona_dni con el dni de la persona propietaria de la Empresa.
-	    @JoinColumn(name="persona_dni")
+	    //@JoinColumn(name="persona_dni")
 	    private Persona persona;
 		
-		public Empresa(int i, String n)  {
+		public Empresa( String n)  {
 		nombre=n;
-		id=i;
+		
 	}
 		//Getters and Setters
 		
