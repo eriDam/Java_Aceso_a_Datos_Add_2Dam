@@ -9,7 +9,9 @@ import javax.persistence.RollbackException;
  
 
 public class TestPersistencia {
-		
+	 private EntityManagerFactory emf;
+	  private EntityManager em;
+	  private String PERSISTENCE_UNIT_NAME = "UnitPersonas";
 	public static void main(String[] args) throws RollbackException, Exception {
 
 		
@@ -18,6 +20,7 @@ public class TestPersistencia {
 		try {
 		    EntityManagerFactory emf = Persistence.createEntityManagerFactory("UnitPersonas");
 			EntityManager em = emf.createEntityManager();	
+			
 			Persona p=null;
 			//Creo Empresa
 			System.out.println("Creando Empresa...");

@@ -15,7 +15,7 @@
 			<property name="javax.persistence.jdbc.password" value="" />
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost/personas" />
 			<!-- EclipseLink should create the database schema automatically -->
-      		<property name="eclipselink.ddl-generation" value="create-tables" />
+      		<property name="eclipselink.ddl-generation" value=""drop-and-create-tables" />
       		</properties>
 	</persistence-unit>
 	

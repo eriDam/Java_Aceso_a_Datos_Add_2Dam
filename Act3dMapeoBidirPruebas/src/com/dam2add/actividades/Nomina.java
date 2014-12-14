@@ -1,9 +1,11 @@
 package com.dam2add.actividades;
 
+import java.io.Serializable;
+
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
-public class Nomina {
+public class Nomina implements Serializable{
 	//utilizamos el id para decir que será dni clave primaria, para marcar el atributo de la clase
 	@Id
 	private String retribucion;
