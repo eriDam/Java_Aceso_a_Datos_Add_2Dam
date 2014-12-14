@@ -24,24 +24,7 @@ import javax.persistence.RollbackException;
  	                 *      http://www.arquitecturajava.com/jpa-onetomany/			 
 					 **/
 public class GestionPersistencia {
-	  private EntityManagerFactory emf;
-	  private EntityManager em;
-	  private String PERSISTENCE_UNIT_NAME = "UnitPersonas";
-	 
-	  
-	//Método para iniciar el entityManager
-	  public void iniciaEntityManager()  {
-		  emf = Persistence.createEntityManagerFactory("UnitPersonas");
-		  em = emf.createEntityManager();
-		   }
-	
-	  //Método para Cerrar el entityManager y el factory
-	  private void cerrarEntityManager()   {
-	      em.close(); 
-	      emf.close(); 
-	      }
-	  
-	  
+	   
 	  //CRUD
 	  
 	  //CREATE
@@ -66,20 +49,28 @@ public class GestionPersistencia {
 		 }
 	    }
 	  
-	//Método para crear persona
-//	  public void insertarP (Persona p) {
-//		  gP=new GestionPersistencia();
-//		  gP.iniciaEntityManager();//Inicio el entityManager y el factory con mi metodo creado expresamente
-//		/*El entity manager tiene un metodo que nos permite obtener 
-//		*la transaccion en curso o crear una si no existe ninguna*/
-//		  em.getTransaction().begin();//se activa la transaccion mediante el método begin 
-//	      p.setDni("4455786MH");
-//	      p.setNombre("Pedri");
-//	      p.setEdad(12);
-//	      em.persist(p);//utilizo el persist para guardar este objeto en la bd
-//	      em.getTransaction().commit();//y finaliza cuando hay un commit
-//	      gP.cerrarEntityManager();//Cierro el entityManager y el factory con mi metodo creado expresamente
-//	    }
+	  //Insertar empresa
+	  public void insertarE (Empresa e) throws RollbackException, Exception{
+			//Creamos objetos entity
+			//Tenemos un objeto EntityManagerFactory utilizamos con Persistence el create y le 
+		    //pasamos el nombre de la persistence unit
+			  EntityManagerFactory emf1 = Persistence.createEntityManagerFactory("UnitPersonas");
+			//Se realiza el createEntityManager() para crear un EntityManager
+			  EntityManager em1 = emf1.createEntityManager();
+			
+			//Usamos metodos del entity para crear transaccion y guardar el objeto en la BBDD
+			//El entity manager tiene un metodo que nos permite obtener la transaccion en curso o crear una si no existe ninguna
+			 try {
+			 em1.getTransaction().begin();//se activa la transaccion mediante el método begin 
+			 em1.persist(e);//va a almacenar la informacion de p en la bd, el persist se utiliza para persistir nuevas entidades en la bd
+			 em1.getTransaction().commit();//y finaliza cuando hay un commit
+			 } catch (Exception ex) {	 
+			 ex.printStackTrace();
+			 }finally {
+			 em1.close();
+			 }
+		    }
+	 
 	  public void modificar(Persona p){
 		//Creamos objetos entity
 			EntityManagerFactory emf1 = Persistence.createEntityManagerFactory("UnitPersonas");

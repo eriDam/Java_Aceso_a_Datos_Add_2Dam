@@ -1,13 +1,14 @@
+package com.dam2add.actividades;
+ 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-
-
 
 /*Toda entidad debe:
 *Proporcionar un constructor por defecto (ya sea de forma implícita o explícita)
@@ -27,25 +28,57 @@ public class Persona implements Serializable {
 	
 
 	//Construiremos la relación del otro lado entre la Persona y la EMPRESA Y NOMINA. 
-	//El primer paso será añadir unas variable de tipo List<Empresa> y List<Nomina> dentro de la clase Persona
-	//El siguiente paso será anotar la clase de la forma correcta para que soporte la relación. 
-	//En este caso utilizaremos la anotación OneToMany
-	//la anotación  OneToMany  tiene un parámetro que se denomina mappedBy y cuyo valor es “persona”. Este parámetro hace 
-	//referencia a que la relación ya fue construida por la otra clase “Empresa” a traves de su variable “persona”
-	@ManyToOne
-	private Empresa empresa; 
-
+	 
+	//Construiremos la relación del otro lado entre la Persona y la EMPRESA Y NOMINA. 
+		//El primer paso será añadir unas variable de tipo List<Empresa> dentro de la clase Persona
+		//El siguiente paso será anotar la clase de la forma correcta para que soporte la relación. 
+		//En este caso utilizaremos la anotación ManyToOne, ya que muchas personas pueden pertenecer a una empresa
+		 
+	 
+	@ManyToOne 
+	private Empresa nombreE;
+	//Establecemos la relación con la otra tabla
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "persona")
+	private Nomina retribucion;
+	private List<Empresa> listaEmpresas;
+	
 	public Persona() {
 		
 	}
-
-	public Persona(String d, int e,String n) {
+	//Constructor al que le paso Nomina y List empresas
+	public Persona(String d, int e,String n, Nomina retr, List<Empresa> empresas) {
 		dni = d;
 		edad = e;
 		nombre = n;
-		 
+		retribucion = retr;
+		listaEmpresas = empresas;
+		
 	}
 	
+	public Empresa getNombreE() {
+		return nombreE;
+	}
+
+	public void setNombreE(Empresa nombreE) {
+		this.nombreE = nombreE;
+	}
+
+	public Nomina getRetribucion() {
+		return retribucion;
+	}
+
+	public void setRetribucion(Nomina retribucion) {
+		this.retribucion = retribucion;
+	}
+
+	public List<Empresa> getListaEmpresas() {
+		return listaEmpresas;
+	}
+
+	public void setListaEmpresas(List<Empresa> listaEmpresas) {
+		this.listaEmpresas = listaEmpresas;
+	}
+
 	public String getDni() {
 	 return dni;
 	}

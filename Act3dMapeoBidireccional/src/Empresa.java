@@ -24,8 +24,9 @@ public class Empresa implements Serializable {
 	    //@JoinColumn(name="persona_dni")
 	    private Persona persona;
 		
-		public Empresa( String n)  {
+		public Empresa( String n, Persona per)  {
 		nombre=n;
+		persona=per;
 		
 	}
 		//Getters and Setters
