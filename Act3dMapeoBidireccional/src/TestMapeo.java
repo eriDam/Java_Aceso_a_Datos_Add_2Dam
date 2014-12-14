@@ -39,7 +39,7 @@ public static void main(String[] args)throws RollbackException, Exception {
 				gp.recuperarEmpresas();
 				
 				//usamos para recuperar nominas
-				Nomina n = new Nomina(1,"Mensual");
+				Nomina n = new Nomina("Mensual");
 				p.addNomina(n);
 				p.getlistaNom();
 	         }

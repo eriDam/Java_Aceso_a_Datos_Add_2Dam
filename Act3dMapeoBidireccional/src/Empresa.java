@@ -12,7 +12,7 @@ public class Empresa implements Serializable {
 	    //utilizamos el id para decir que será dni clave primaria, para marcar el atributo de la clase
 		@Id
 		@GeneratedValue(strategy=GenerationType.SEQUENCE)
-		private int id;
+		private long id;
 		private String nombre;
 		
 		//OneToMany es una de las anotaciones mas habituales a nivel de JPA y se encarga de generar
@@ -33,11 +33,11 @@ public class Empresa implements Serializable {
 		public String getNombre() {
 			return nombre;
 		}
-		public int getId() {
+		public long getId() {
 			return id;
 		}
 
-		public void setId(int id) {
+		public void setId(long id) {
 			this.id = id;
 		}
 
