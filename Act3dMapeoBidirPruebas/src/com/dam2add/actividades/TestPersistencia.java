@@ -9,26 +9,27 @@ import javax.persistence.RollbackException;
  
 
 public class TestPersistencia {
-	 private EntityManagerFactory emf;
-	  private EntityManager em;
-	  private String PERSISTENCE_UNIT_NAME = "UnitPersonas";
+	 
 	public static void main(String[] args) throws RollbackException, Exception {
 
-		
+			EntityManagerFactory emf = Persistence.createEntityManagerFactory("UnitPersonas");
+			
 				
 		
 		try {
-		    EntityManagerFactory emf = Persistence.createEntityManagerFactory("UnitPersonas");
-			EntityManager em = emf.createEntityManager();	
-			
+		    	
+			EntityManager em = emf.createEntityManager();
 			Persona p=null;
+			
+			//Selecciono de la Bd la primera persona
+			em.getTransaction().begin();
 			//Creo Empresa
 			System.out.println("Creando Empresa...");
-			em.getTransaction().begin();
+			Empresa e = new Empresa("El corte");
 			Query q = em.createQuery("SELECT p FROM Persona p");
 			p = (Persona) q.getResultList().get(0);	
-			Empresa e = new Empresa("El corte", p);
-			Nomina nom= new Nomina("Mensual",p);
+			
+			Nomina nom= new Nomina(1000,p);
 			em.persist(e);
 			em.persist(nom);
 			em.getTransaction().commit();

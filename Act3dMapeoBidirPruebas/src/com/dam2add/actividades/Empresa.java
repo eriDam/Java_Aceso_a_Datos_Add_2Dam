@@ -22,9 +22,9 @@ public class Empresa implements Serializable {
 			private Persona persona;
 			
 			//Constructor incluyendo persona
-			public Empresa( String n, Persona empl)  {
+			public Empresa( String n)  {
 				nombre=n;
-				persona=empl;
+				//persona=empl;
 				
 			}
 				//Getters and Setters
