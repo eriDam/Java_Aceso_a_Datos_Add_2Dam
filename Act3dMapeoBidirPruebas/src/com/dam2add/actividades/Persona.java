@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 /*Toda entidad debe:
 *Proporcionar un constructor por defecto (ya sea de forma implícita o explícita)
@@ -38,7 +39,9 @@ public class Persona implements Serializable {
 	@ManyToOne 
 	private Empresa nombreE;
 	//Establecemos la relación con la otra tabla
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "persona")
+	//la anotación  OneToOne  tiene un parámetro que se denomina mappedBy y cuyo valor es “persona”. Este parámetro hace 
+	//referencia a que la relación ya fue construida por la otra clase “Empresa” a traves de su variable “persona”
+	@OneToOne(mappedBy = "persona")
 	private Nomina retribucion;
 	private List<Empresa> listaEmpresas;
 	
