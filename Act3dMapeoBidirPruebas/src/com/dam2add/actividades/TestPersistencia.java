@@ -42,7 +42,7 @@ public class TestPersistencia {
 			p1.print();
 			
 			//Creo nomina
-		    Nomina nom= new Nomina(1000,p);
+		    Nomina nom= new Nomina(1000,p1);
 		    em.getTransaction().begin();
 			em.persist(nom);
 			em.getTransaction().commit();
@@ -53,13 +53,14 @@ public class TestPersistencia {
 			//Selecciono de la Bd la primera persona
 			Query q = em.createQuery("SELECT p FROM Persona p");
 			p = (Persona) q.getResultList().get(0);	
-			
+			p1.print();
+			nom.print();
 			
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		} 
 		//finally {
-		//	em.close();
+			//em.close();
 		//}	     
 
 	}
