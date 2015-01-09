@@ -19,7 +19,7 @@ public class TestPersistencia {
 		try {
 		    	
 			EntityManager em = emf.createEntityManager();
-			Persona p=null;
+			//Persona p=null;
 			
 			
 			
@@ -52,7 +52,7 @@ public class TestPersistencia {
 			
 			//Selecciono de la Bd la primera persona
 			Query q = em.createQuery("SELECT p FROM Persona p");
-			p = (Persona) q.getResultList().get(0);	
+			p1 = (Persona) q.getResultList().get(0);	
 			p1.print();
 			//imprimo nomina
 			nom.print();
