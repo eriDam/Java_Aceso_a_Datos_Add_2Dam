@@ -6,7 +6,14 @@ import com.db4o.ext.Db4oIOException;
 import com.db4o.query.Constraint;
 import com.db4o.query.Query;
 
-
+/* 
+ * NOTA: Para que funcione esta clase:
+ * 1º-Hay que borrar el archivo .db4o
+ * 2º-Crear la bd y objetos, quitando de comentarios y comentar linea 81 bbdd.delete(p4);
+ * 3º-Para probar el método delete, se coloca en comentarios la creacion de objetos en la bd
+ * y se descomenta la linea 81 para poder usar bbdd.delete(p4);
+ * 
+ * */
 public class Princip {
 	
 	static ObjectContainer bbdd;
