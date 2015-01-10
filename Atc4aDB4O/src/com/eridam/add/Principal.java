@@ -20,9 +20,9 @@ public class Principal {
 		ObjectContainer baseDatos = Db4oEmbedded.openFile(
 				Db4oEmbedded.newConfiguration(), "personas.db4o");
 		// creamos una persona
-//		Persona pers1 = new Persona("Pablo", 21, "25698887M");
-//		Persona pers2 = new Persona("Mar", 25, "21233365G");
-//		Persona pers3 = new Persona("Pedro", 25, "22263669M");
+		Persona pers1 = new Persona("Pablo", 21, "25698887M");
+		Persona pers2 = new Persona("Mar", 25, "21233365G");
+		Persona pers3 = new Persona("Pedro", 25, "22263669M");
 		try {
 			// Inserto la persona
 //			GestionPersistencia.insertarPersona(baseDatos, pers1);
@@ -67,7 +67,13 @@ public class Principal {
 			GestionPersistencia.consultaSODAPersonaEdadEntre(baseDatos, 21, 26);
 			System.out.println("**************************************");
 			//Borrar
-			//GestionPersistencia.borrar(pers1);
+			GestionPersistencia.borrar(baseDatos, pers2);
+			System.out.println("borrada persona2");
+			//Consulta para recuperar todas las personas igual que anterior pero con método
+			System.out.println("Recupero todas las personas");
+			GestionPersistencia.consultaSODATodasPersonas(baseDatos);
+			System.out.println("**************************************");
+			
 		
 		} finally {
 			//Cerramos conexión a la BD

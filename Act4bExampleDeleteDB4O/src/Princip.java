@@ -18,7 +18,7 @@ public class Princip {
 	
 	static ObjectContainer bbdd;
 	
-	/*Hay que definir (especificar las clases)que queremos qeu se borren en cascada, antes de abrir la base de datos
+	/*Hay que definir (especificar las clases)que queremos que se borren en cascada, antes de abrir la base de datos
 	 *si estas clases tuvieran otros objetos dentro tendriamos que definir un metodo
 	 *para esto, con el metodo inicializar por ejemplo*/
 	
@@ -53,11 +53,9 @@ public class Princip {
 			princ.inicializar();
 			//Paso las personas/objetos a la base de datos
 //			bbdd.store(p);
-//			bbdd.commit();//Para forzar el flujo de datos del contenedor
 //			bbdd.store(p2);
-//			bbdd.commit();
 //			bbdd.store(p3);
-//			bbdd.commit();
+			//bbdd.commit();//Para forzar el flujo de datos del contenedor
 			
 			
 			

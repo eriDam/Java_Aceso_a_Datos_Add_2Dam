@@ -192,6 +192,7 @@ public class GestionPersistencia {
 	/**Borrar un objeto*/
 	public static void borrar(ObjectContainer baseDatos, Persona pers) throws Db4oException { 
 		baseDatos.delete(pers); 
+		baseDatos.commit();
 		} 
 
 	/**
