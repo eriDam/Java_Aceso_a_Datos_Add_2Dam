@@ -186,17 +186,17 @@ public class GestionDB4O {
      * Permite borrar una persona de la base de datos
      *
      * @param baseDatos la base de datos desde la que se va a operar
-     * @param dni el nombre del ponente que se va a borrar
+     * @param dniP el dni de la pers que se va a borrar
      */
-    public static void borrarPersPorDni(ObjectContainer baseDatos, String dni) {
+    public static void borrarPersPorDni(ObjectContainer baseDatos, String dniP) {
         Query query = baseDatos.query();
         query.constrain(Persona.class);
-        query.descend("dni").constrain(dni);
+        query.descend("dni").constrain(dniP);
         ObjectSet resul = query.execute();
         while (resul.hasNext()) {
-            Persona pers = (Persona) resul.next();
-            System.out.println("Eliminando: " + pers);
-            baseDatos.delete(pers);
+            Persona persona = (Persona) resul.next();
+            System.out.println("Eliminando: " + persona);
+            baseDatos.delete(persona);
         }
     }
 }

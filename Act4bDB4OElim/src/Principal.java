@@ -114,6 +114,12 @@ public class Principal {
 	             GestionDB4O.consultaSODAVehiculos(baseDatos);
 	             System.out.println("**************************************");
 	             
+	             System.out.println("Borrado de una persona por su dni");
+	             GestionDB4O.borrarVehiculoPorMatricula(baseDatos, "12257711Z");
+	             System.out.println("Borrando  persona con dni 12257711Z");
+	             GestionDB4O.consultaSODApersonas(baseDatos);
+	             System.out.println("**************************************");
+	             
 	             System.out.println("Comprobamos vehículos y personas");
 	             GestionDB4O.consultaSODAVehiculos(baseDatos);
 	             GestionDB4O.consultaSODApersonas(baseDatos);
