@@ -11,8 +11,8 @@ public class Vehiculo {
 	private ArrayList<String> reparaciones;
 	
 
-	public void addReparaciones(ArrayList<String> reparacion){
-		reparacion.add("");
+	public void addReparaciones(String reparacion){
+		reparaciones.add(reparacion);
 	}
 	
 

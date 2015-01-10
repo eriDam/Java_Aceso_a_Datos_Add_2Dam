@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -318,20 +319,27 @@ public class GestionDB4O {
 	 public static List<Vehiculo> recuperarVehiculosAvanzados(ObjectContainer baseDatos){
 		
 		 List res = baseDatos.query(new com.db4o.query.Predicate() {
-				public boolean match(Vehiculo vehiculo) {
-					return vehiculo.getAnyo_matr() >= 2011 || vehiculo.getMatricula().startsWith("F") || vehiculo.getMatricula().startsWith("G") || vehiculo.getReparaciones();
-
-				}
-
-				@Override
+			 public boolean match(Vehiculo vehiculo) {
+					//return vehiculo.getAnyo_matr() >= 2011 || vehiculo.getMatricula().startsWith("F") || vehiculo.getMatricula().startsWith("G") || ArrayList<reparaciones> vehiculo.getReparaciones();
+				 if(vehiculo.getAnyo_matr() >= 2011 || vehiculo.getMatricula().startsWith("F") || vehiculo.getMatricula().startsWith("G") ) return true;
+				 ArrayList reparaciones= vehiculo.getReparaciones();
+				 for(String s:reparaciones)
+				 {
+				 if(s.equals("cambio de aceite"))
+				 return true;
+				 }
+				 return false;
+			 }
+			 @Override
 				public boolean match(Object et) {
 					throw new UnsupportedOperationException("Not supported yet.");
 				}
 			});
 			imprimirResultadoConsulta((ObjectSet) res);
 			return res;
-		}
-	
+		
+	 
+	 }
 //	 public static List<Vehiculo> recuperarVehiculosAvanzados(ObjectContainer baseDatos){
 //		final List repara=Arrays.asList("Cambio de Aceite", "ruedas", "motor");
 //		ObjectSet result = baseDatos.query(new Predicate() {
