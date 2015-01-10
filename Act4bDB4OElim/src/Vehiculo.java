@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Vehiculo {
 
 	private String matricula;
@@ -5,16 +8,29 @@ public class Vehiculo {
 	private String modelo = null;
 	private Persona propietario;
 	private int anyo_matr;
-	private String reparaciones;
+	private ArrayList<String> reparaciones;
 	
 
-	public String getReparaciones() {
+	public void addReparaciones(ArrayList<String> reparacion){
+		reparacion.add("");
+	}
+	
+
+	 
+
+	public ArrayList<String> getReparaciones() {
 		return reparaciones;
 	}
 
-	public void setReparaciones(String reparaciones) {
+
+
+
+	public void setReparaciones(ArrayList<String> reparaciones) {
 		this.reparaciones = reparaciones;
 	}
+
+
+
 
 	public Vehiculo() {
 	}
@@ -25,6 +41,7 @@ public class Vehiculo {
 		this.modelo = mod;
 		this.propietario = prop;
 		this.anyo_matr = anyo;
+		this.reparaciones= new ArrayList();
 	}
 
 	public String getMatricula() {
