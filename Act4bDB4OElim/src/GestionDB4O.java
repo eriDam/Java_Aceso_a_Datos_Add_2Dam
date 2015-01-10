@@ -99,7 +99,7 @@ public class GestionDB4O {
 	 *            el objeto en el que se ha almacenado el resultado de la
 	 *            consulta
 	 */
-	public static void imprimirResultadoConsulta(ObjectSet resultado) {
+	public static void imprimirResultadoConsulta(ObjectSet<Vehiculo> resultado) {
 		System.out.println("Recuperados " + resultado.size() + " Objetos");
 		while (resultado.hasNext()) {
 			System.out.println(resultado.next());
@@ -116,7 +116,7 @@ public class GestionDB4O {
 	public static void consultaSODApersonas(ObjectContainer baseDatos) {
 		Query query = baseDatos.query();
 		query.constrain(Persona.class);// declara las restricciones
-		ObjectSet resultado = query.execute();
+		ObjectSet<Vehiculo> resultado = query.execute();
 		imprimirResultadoConsulta(resultado);
 	}
 
@@ -129,7 +129,7 @@ public class GestionDB4O {
 	public static void consultaSODAVehiculos(ObjectContainer baseDatos) {
 		Query query = baseDatos.query();
 		query.constrain(Vehiculo.class);// declara las restricciones
-		ObjectSet resultado = query.execute();
+		ObjectSet<Vehiculo> resultado = query.execute();
 		imprimirResultadoConsulta(resultado);
 	}
 
@@ -144,7 +144,7 @@ public class GestionDB4O {
 		Query query = baseDatos.query();
 		query.constrain(Vehiculo.class);
 		query.descend("matricula").orderDescending();
-		ObjectSet resultado = query.execute();
+		ObjectSet<Vehiculo> resultado = query.execute();
 		imprimirResultadoConsulta(resultado);
 	}
 
@@ -167,7 +167,7 @@ public class GestionDB4O {
 		// aplicar es matricula y la restricion es el parametro vmatricula
 		Constraint constraint = query.descend("matricula")
 				.constrain(vmatricula);
-		ObjectSet resultado = query.execute();
+		ObjectSet<?> resultado = query.execute();
 		Vehiculo v = (Vehiculo) resultado.get(0);
 		v.setModelo(nuevoModelo);
 		baseDatos.store(v);
@@ -193,7 +193,7 @@ public class GestionDB4O {
 		// creamos el constraint diciendo que el campo donde lo tiene que
 		// aplicar es dni y la restricion es el parametro dni
 		Constraint constraint = query.descend("dni").constrain(dni);
-		ObjectSet resultado = query.execute();
+		ObjectSet<?> resultado = query.execute();
 		Vehiculo v = (Vehiculo) resultado.get(0);
 		v.setMarca("BMW");
 		baseDatos.store(v);
@@ -212,7 +212,7 @@ public class GestionDB4O {
 		Query query = baseDatos.query();
 		query.constrain(Vehiculo.class);
 		query.descend("matricula").constrain(matriculaV);
-		ObjectSet resul = query.execute();
+		ObjectSet<?> resul = query.execute();
 		while (resul.hasNext()) {
 			Vehiculo vehiculo = (Vehiculo) resul.next();
 			System.out.println("Eliminando: " + vehiculo);
@@ -232,7 +232,7 @@ public class GestionDB4O {
 		Query query = baseDatos.query();
 		query.constrain(Persona.class);
 		query.descend("dni").constrain(dniP);
-		ObjectSet resul = query.execute();
+		ObjectSet<?> resul = query.execute();
 		while (resul.hasNext()) {
 			Persona persona = (Persona) resul.next();
 			System.out.println("Eliminando: " + persona);
@@ -293,7 +293,7 @@ public class GestionDB4O {
 	 */
 	public static void recuperarVehiculosPorAnyoNATIVE(
 			ObjectContainer baseDatos, int menor, int mayor) {
-		List res = baseDatos.query(new com.db4o.query.Predicate() {
+		List<Vehiculo> res = baseDatos.query(new com.db4o.query.Predicate() {
 			public boolean match(Vehiculo vehiculo) {
 				return vehiculo.getAnyo_matr() >= menor
 						&& vehiculo.getAnyo_matr() <= mayor;
@@ -305,7 +305,7 @@ public class GestionDB4O {
 				throw new UnsupportedOperationException("Not supported yet.");
 			}
 		});
-		imprimirResultadoConsulta((ObjectSet) res);
+		imprimirResultadoConsulta((ObjectSet<Vehiculo>) res);
 	}
 
 	/**
@@ -318,11 +318,11 @@ public class GestionDB4O {
 	 * */
 	 public static List<Vehiculo> recuperarVehiculosAvanzados(ObjectContainer baseDatos){
 		
-		 List res = baseDatos.query(new com.db4o.query.Predicate() {
+		 List<Vehiculo> res = baseDatos.query(new com.db4o.query.Predicate() {
 			 public boolean match(Vehiculo vehiculo) {
 					//return vehiculo.getAnyo_matr() >= 2011 || vehiculo.getMatricula().startsWith("F") || vehiculo.getMatricula().startsWith("G") || ArrayList<reparaciones> vehiculo.getReparaciones();
 				 if(vehiculo.getAnyo_matr() >= 2011 || vehiculo.getMatricula().startsWith("F") || vehiculo.getMatricula().startsWith("G") ) return true;
-				 ArrayList reparaciones= vehiculo.getReparaciones();
+				 ArrayList<String> reparaciones= vehiculo.getReparaciones();
 				 for(String s:reparaciones)
 				 {
 				 if(s.equals("cambio de aceite"))
@@ -335,7 +335,7 @@ public class GestionDB4O {
 					throw new UnsupportedOperationException("Not supported yet.");
 				}
 			});
-			imprimirResultadoConsulta((ObjectSet) res);
+			imprimirResultadoConsulta((ObjectSet<Vehiculo>) res);
 			return res;
 		
 	 

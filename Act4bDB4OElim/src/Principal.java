@@ -46,14 +46,22 @@ public class Principal {
 			Persona pers4 = new Persona("Carla", 30, "12257711Z");
 			Persona pers5 = new Persona("Andrea", 36, "29204528W");
 			
+			
+			 
 			//Creamos unos vehículos
-			Vehiculo v1 = new Vehiculo("2564CTN", "Opel","Corsa",pers2,2000);
-			Vehiculo v2 = new Vehiculo("4602HBJ", "Seat","Ibiza",pers1,2014);
-			Vehiculo v3 = new Vehiculo("6987XFD","BMW","Compack",pers3,2013);
+			Vehiculo v1 = new Vehiculo("F2564CTN", "Opel","Corsa",pers2,2000);
+			Vehiculo v2 = new Vehiculo("G4602HBJ", "Seat","Ibiza",pers1,2014);
+			Vehiculo v3 = new Vehiculo("F6987XF","BMW","Compack",pers3,2013);
 	        v3.setModelo("320cl");
-	        Vehiculo v4 = new Vehiculo("6949XFD","BMW","Mini",pers5,2001);
-	        Vehiculo v5 = new Vehiculo("6987WDE","Ford","Kuga",pers4,2015);
+	        Vehiculo v4 = new Vehiculo("B6949XF","BMW","Mini",pers5,2001);
+	        Vehiculo v5 = new Vehiculo("M6987WD","Ford","Kuga",pers4,2015);
 	        
+	      //Creo las reparaciones
+	       v1.addReparaciones("Cambio de aceite");
+	       v2.addReparaciones("Cambio de aceite");
+	       v3.addReparaciones("Cambio neumaticos");
+	       v4.addReparaciones("Chapa y pintura");
+	       v5.addReparaciones("Ruedas 4X4 mas recambio");
 	       
 	              
 	        	// Inserto la personas
@@ -77,6 +85,8 @@ public class Principal {
 	             GestionDB4O.insertarVehiculo(baseDatos,v4);
 	             GestionDB4O.insertarVehiculo(baseDatos,v5);
 	             
+	             
+	             
 	             //Ejemplo de consulta por matricula
 	             System.out.println("**************************************");
 	             System.out.println("Los vehículos por matricula son:");
@@ -85,8 +95,8 @@ public class Principal {
 	             //EJEMPLOS DE ACTUALIZACION
 	             System.out.println("**************************************");
 	             System.out.println("Actualizar modelo  de un vehiculo por su matricula");
-	             GestionDB4O.actualizarModeloVehiculo(baseDatos, "4602HBJ", "Astra");
-	             System.out.println("Actualizando matricula  4602HBJ ...");
+	             GestionDB4O.actualizarModeloVehiculo(baseDatos, "F2564CTN", "Astra");
+	             System.out.println("Actualizando matricula  F2564CTN ...");
 	             
 	             System.out.println("Comprobamos recuperando todos los vehiculos:");
 	             GestionDB4O.consultaSODAVehicOrdenadosMatricula(baseDatos);
@@ -110,8 +120,8 @@ public class Principal {
 	             
 	              //EJEMPLOS DE BORRADO
 	             System.out.println("Borrado de un vehículo por su matricula");
-	             GestionDB4O.borrarVehiculoPorMatricula(baseDatos, "6987XFD");
-	             System.out.println("Borrando el vehículo con matricula 6987XFD");
+	             GestionDB4O.borrarVehiculoPorMatricula(baseDatos, "G4602HBJ");
+	             System.out.println("Borrando el vehículo con matricula G4602HBJ");
 	             GestionDB4O.consultaSODAVehiculos(baseDatos);
 	             System.out.println("**************************************");
 	             
@@ -134,7 +144,7 @@ public class Principal {
 	             //ACTIVIDAD 4C
 	             System.out.println("**************************************");
 	             System.out.println("Recupero por matrícula");
-	             GestionDB4O.recuperarVehiculoPorMatriculaQbE(baseDatos,"4602HBJ");
+	             GestionDB4O.recuperarVehiculoPorMatriculaQbE(baseDatos,"F6987XF");
 	             
 	             
 	             //ACTIVIDAD 4C Native
@@ -144,8 +154,8 @@ public class Principal {
 	             
 	             //ACTIVIDAD 4C Native
 	             System.out.println("**************************************");
-	             System.out.println("Recupero por reparacion");
-	             //GestionDB4O.recuperarVehiculosAvanzados(baseDatos);
+	             System.out.println("Recupero por vehiculos avanzados");
+	             GestionDB4O.recuperarVehiculosAvanzados(baseDatos);
 	             
 		         }catch(ExceptionInInitializerError e){
 	        	 System.out.println("Error:"+e.getStackTrace());

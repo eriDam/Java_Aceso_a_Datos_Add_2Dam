@@ -78,5 +78,16 @@ public class Principal {
 		}
 
 	}
-
+	/**
+	 * Ver ejemplo de Salva diferente mio en Act4c
+	 * 
+	 * public List<Vehiculo> recuperarVehiculosAvanzados(){ //Creamos la
+	 * setencia nativa List<Vehiculo> set = bbdd.query(new Predicate<Vehiculo>()
+	 * { //Le pasamos los parametros public boolean match(Vehiculo v) { return
+	 * v.getAnyoMatriculacion()>2010 ||
+	 * v.getReparacion().compareTo("cambio de aceite")==0 ||
+	 * v.getMatricula().startsWith("G") || v.getMatricula().startsWith("F"); }
+	 * }); //Bucle for para imprimir for(Vehiculo p: set){ p.print(); } return
+	 * null; }
+	 */
 }
