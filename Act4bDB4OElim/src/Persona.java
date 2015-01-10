@@ -5,6 +5,7 @@ public class Persona {
 	private String dni;
 	private String nombre = null;
 	private int edad;
+	//Vehiculo vehiculo;
 
 	public Persona() {
 	}

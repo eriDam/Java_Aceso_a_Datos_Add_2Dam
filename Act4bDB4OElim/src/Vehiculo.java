@@ -3,14 +3,16 @@ public class Vehiculo {
 	private String matricula;
 	private String marca = null;
 	private String modelo = null;
+	private Persona propietario;
 
 	public Vehiculo() {
 	}
 
-	public Vehiculo(String mat, String mar, String mod) {
-		matricula = mat;
-		marca = mar;
-		modelo = mod;
+	public Vehiculo(String mat, String mar, String mod, Persona prop) {
+		this.matricula = mat;
+		this.marca = mar;
+		this.modelo = mod;
+		this.propietario = prop;
 	}
 
 	public String getMatricula() {
@@ -38,7 +40,13 @@ public class Vehiculo {
 	}
 	
 	public void print(){
-		System.out.println("Matricula: "+matricula+" marca "+marca+" modelo "+modelo);
+		System.out.println("Matricula: "+matricula+" marca: "+marca+" modelo: "+modelo);
+	}
+
+	@Override
+	public String toString() {
+		return "Vehiculo [matricula=" + matricula + ", marca=" + marca
+				+ ", modelo=" + modelo + ", propietario=" + propietario + "]";
 	}
 	
 }
