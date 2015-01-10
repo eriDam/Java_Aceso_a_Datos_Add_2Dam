@@ -39,7 +39,8 @@ public class Principal {
 
 			System.out.println("******************************************");
 			System.out.println("Realizamos consulta QBE con Patrón Pepe");
-			/**Realizamos consulta QBE con un patron*/
+			/**Realizamos consulta QBE con un patron, pero no podemos filtrar por un rango de edades
+			 * para eso se pude con las native query*/
 			set = bbdd.queryByExample(new Persona("Pepe",0, null));
 			/**Recorremos la lista e imprimimos el resultado*/
 			while (set.hasNext()) {				
@@ -50,17 +51,22 @@ public class Principal {
 			/**3 manera de feninir consultas, con las 
 			 * Native Query:
 			 * 		 definen una interfaz llamada predicate con un metodo match donde 
-			 * especificamos las condiciones que tienen que tener los objetos para ser seleccionados*/
+			 * 		 especificamos las condiciones que tienen que tener los objetos para
+			 *       ser seleccionados de la bd*/
 			
 			set = bbdd.query(new Predicate<Persona>() {
 				
-				public boolean match(Persona p) {//especificaremos el patron que queremos encontrar
+				public boolean match(Persona p) {
+					/**especificaremos el patron que queremos encontrar
+					 * recuperamos con p getNombre el nombre de la persona, y con compareTo
+					 * se compara si es "El string pepe que le pasamos", o la edad > q 20*/
 					return p.getNombre().compareTo("Pepe")==0 || p.getEdad()>20;
 				}
 				
 			});
 			
 			System.out.println("******************************************");
+			/**Se puede utilizar un for igual que un while para recorrer la lista*/
 			for(Persona p: set){
 				System.out.println("Personas >20 años: ");
 				p.print();
