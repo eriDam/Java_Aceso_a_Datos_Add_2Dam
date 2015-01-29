@@ -1,6 +1,6 @@
 import java.io.IOException;
 
-import org.basex.query.value.item.Str;
+//import org.basex.query.value.item.Str;
 import org.basex.server.ClientSession;
 
 /**
