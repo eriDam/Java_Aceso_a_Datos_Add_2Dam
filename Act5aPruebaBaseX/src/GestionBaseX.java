@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.util.List;
 
+import org.basex.core.cmd.XQuery;
 import org.basex.server.ClientSession;
 
 
@@ -139,17 +140,49 @@ public class GestionBaseX {
 		String cadInsert = "insert node <persona><dni>" + dni
 		+ "</dni><nombre>" + nombre + "</nombre><edad>" + edad
 		+ "</edad></persona> into /personas";
+		try {
+			System.out.println(session.query(cadInsert).execute());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		System.out.println("Se ha insertado correctamente: "+cadInsert);
 		System.out.println("*****************************");
 		}
 		
 		/**. Borra el nodo correspondiente
-			a la persona que coincided con el dni pasado por parámetro. Para ello se
+			a la persona que coincide con el dni pasado por parámetro. Para ello se
 			realizará una instrucción Xquery utilizando “delete node*/
 		public void borrarPersona(String dni){
-			String cadBorrado = "delete node <persona><dni>"+dni+ "into /personas";
-					// doc("personas")//personas/persona/dni"
-			System.out.println("Se ha borrado correctamente: "+cadBorrado);
-			System.out.println("*****************************");
+			try {
+				/**Creo el objeto Xquery para borrado en la bd*/
+			XQuery queryDelete = new XQuery("delete node //personas/persona[dni='" + dni + "']"); 
+		// doc("personas")//personas/persona/dni"
+				/**Ejecuto el borrado en la bd*/
+			session.execute(queryDelete);
+			
+				System.out.println("Se ha borrado correctamente: "+queryDelete);
+				System.out.println("*****************************");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				System.out.println("Error"+e.getMessage());
+				
+			}
+			
+		}
+		
+		/**. Exporta la base de datos con la
+			que estamos trabajando al fichero pasado por parámetro. Para ello, se utilizará
+			el método “export” sobre el objeto ClientSession.*/
+		public void exportar(String destino){
+			String cadExp = "export c:\\"+ destino;
+			System.out.println("Se ha exportado correctamente a:  "+cadExp);
+			try {
+				System.out.println(session.query(cadExp).execute());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 }

@@ -31,12 +31,15 @@ public class Connect {
 		gestorBX.recuperarPersonaPorNombre("Erika");
 		gestorBX.recuperarPersonaPorDni("29204528");
 		gestorBX.insertarPersona("44235689","Ana", 25 );
-		/**comprobamos la inserción consultando todas las personas de nuevo*/
+		 /**comprobamos la inserción consultando todas las personas de nuevo*/
 		System.out.println("****************");
 		gestorBX.recuperarPersonasAll();
+		
 		gestorBX.borrarPersona("29204528");
 		System.out.println("*********** Consultando el borrado de Erika");
+	 
 		gestorBX.recuperarPersonasAll();
+		gestorBX.exportar("c:\\");
 		
 		
 		/**Utilizo el método creado para cerrar la BD*/
