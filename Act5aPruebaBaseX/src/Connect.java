@@ -17,7 +17,7 @@ import org.basex.server.ClientSession;
  * */
 public class Connect {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		/**Creo un objeto de GestionBaseX para utilizar mis métodos creados*/
 		GestionBaseX gestorBX = new GestionBaseX();
 		
@@ -38,12 +38,16 @@ public class Connect {
 		gestorBX.borrarPersona("29204528");
 		System.out.println("*********** Consultando el borrado de Erika");
 	 
-		gestorBX.recuperarPersonasAll();
-		gestorBX.exportar("c:\\");
-		
-		
-		/**Utilizo el método creado para cerrar la BD*/
+		gestorBX.recuperarPersonasAll();/**Utilizo el método creado para cerrar la BD*/
+ 
+		gestorBX.exportar();
+		//gestorBX.exportar(C://Android);
+		//C://
+		//c://
 		gestorBX.cerrarSesion();
+		
+		
+		
 	
 	}//Fin main
 
