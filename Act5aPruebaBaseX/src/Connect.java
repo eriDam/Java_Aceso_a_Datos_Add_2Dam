@@ -1,5 +1,6 @@
 import java.io.IOException;
 
+
 //import org.basex.query.value.item.Str;
 import org.basex.server.ClientSession;
 
@@ -21,32 +22,51 @@ public class Connect {
 		/**Creo un objeto de GestionBaseX para utilizar mis métodos creados*/
 		GestionBaseX gestorBX = new GestionBaseX();
 		
-		/**Utilizo el método creado para conectar a la BD*/
-		gestorBX.conectar();
+//		//Creamos los valores que le pasamos por parámetro
+//		String nombre;
+//		nombre= "Ana";
+//		
+//		String dni;
+//		dni = "29244555";
+//		
+//		int edad;
+//		edad=30;
 		
 		/**Comprobamos que hay en la BD utilizando el método creado */
 		gestorBX.recuperarPersonasAll();
 		
-		/**Utilizo los  métodos solicitados en la actividad y creados en GestionBaseX */
-		gestorBX.recuperarPersonaPorNombre("Erika");
-		gestorBX.recuperarPersonaPorDni("29204528");
-		gestorBX.insertarPersona("44235689","Ana", 25 );
-		 /**comprobamos la inserción consultando todas las personas de nuevo*/
+		String fichero;
+		fichero = "personaSave.txt";
+		
+		gestorBX.insertarPersona("2920528W", "Erika", 32);
+		/**comprobamos la inserción consultando todas las personas de nuevo*/
 		System.out.println("****************");
 		gestorBX.recuperarPersonasAll();
 		
-		gestorBX.borrarPersona("29204528");
-		System.out.println("*********** Consultando el borrado de Erika");
-	 
-		gestorBX.recuperarPersonasAll();/**Utilizo el método creado para cerrar la BD*/
- 
-		gestorBX.exportar();
-		//gestorBX.exportar(C://Android);
-		//C://
-		//c://
-		gestorBX.cerrarSesion();
+		gestorBX.recuperarPersonaPorNombre("Ana");
 		
+		gestorBX.recuperarPersonaPorDni("2920528W");
 		
+		gestorBX.borrarPersona("29244555");
+		/**Comprobamos que hay en la BD utilizando el método creado */
+		gestorBX.recuperarPersonasAll();
+		gestorBX.exportar(fichero);
+
+		//	/**Utilizo el método creado para conectar a la BD*/
+//		//gestorBX.conectar();
+//		
+//		gestorBX.borrarPersona("29204528");
+//		System.out.println("*********** Consultando el borrado de Erika");
+//	 
+//		gestorBX.recuperarPersonasAll();/**Utilizo el método creado para cerrar la BD*/
+// 
+//	
+//		gestorBX.exportar("c://Android");
+//		//C://
+//		//c://
+//		//gestorBX.cerrarSesion();
+//		
+//		
 		
 	
 	}//Fin main
