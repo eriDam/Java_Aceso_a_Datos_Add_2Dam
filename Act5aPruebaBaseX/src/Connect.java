@@ -22,15 +22,7 @@ public class Connect {
 		/**Creo un objeto de GestionBaseX para utilizar mis métodos creados*/
 		GestionBaseX gestorBX = new GestionBaseX();
 		
-//		//Creamos los valores que le pasamos por parámetro
-//		String nombre;
-//		nombre= "Ana";
-//		
-//		String dni;
-//		dni = "29244555";
-//		
-//		int edad;
-//		edad=30;
+
 		
 		/**Comprobamos que hay en la BD utilizando el método creado */
 		gestorBX.recuperarPersonasAll();
@@ -48,6 +40,7 @@ public class Connect {
 		gestorBX.recuperarPersonaPorDni("2920528W");
 		
 		gestorBX.borrarPersona("29244555");
+		System.out.println("*********** Consultando el borrado de 29244555");
 		/**Comprobamos que hay en la BD utilizando el método creado */
 		gestorBX.recuperarPersonasAll();
 		gestorBX.exportar(fichero);
@@ -57,10 +50,7 @@ public class Connect {
 //		
 //		gestorBX.borrarPersona("29204528");
 //		System.out.println("*********** Consultando el borrado de Erika");
-//	 
-//		gestorBX.recuperarPersonasAll();/**Utilizo el método creado para cerrar la BD*/
-// 
-//	
+	
 //		gestorBX.exportar("c://Android");
 //		//C://
 //		//c://
