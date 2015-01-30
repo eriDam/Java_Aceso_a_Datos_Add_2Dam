@@ -60,7 +60,7 @@ public class Connect {
 			 *  
 			 *  Creo el objeto xqe que lo obtengo de XQConnection (conn)mediante createExpression*/
 			XQExpression xqe = conn.createExpression();
-			// Preparamos la instrucción para BaseX
+			// Preparamos la instrucción para BaseX, en este caso solicito que me devuelva todas las personas por nombre
 			String cad;
 			cad = "for $c in doc('personas')/personas/persona return $c/nombre";
 
@@ -80,7 +80,7 @@ public class Connect {
 			
 			/**Para poder mostrar los resultados, uno a uno, convertidos a String mediante un bucle While
 			 * utilizando el método next, vamos recorriendo y con xqrs.getItemAsString(null), va a mostrar
-			 * losdistintos nombres de las personas que hay.*/
+			 * los distintos nombres de las personas que hay.*/
 			System.out.println("\nLos resultados son: ");
 			while (xqrs.next())
 				System.out.println(xqrs.getItemAsString(null));
