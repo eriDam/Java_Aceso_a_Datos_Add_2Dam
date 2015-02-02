@@ -1,4 +1,9 @@
 package com.eriDam.addAct5;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.InputMismatchException;
+
 import javax.xml.xquery.XQConnection;
 import javax.xml.xquery.XQDataSource;
 import javax.xml.xquery.XQException;
@@ -6,7 +11,7 @@ import javax.xml.xquery.XQExpression;
 import javax.xml.xquery.XQResultSequence;
 
 /**
- * Actividad 5c XQJ con BaseX 
+ * Actividad 5e XQJ con BaseX Variables ligadas
  * @author erika_000
  * 
  * Programa   que incluya un menú que muestra varias opciones al usuario, 
@@ -16,10 +21,10 @@ import javax.xml.xquery.XQResultSequence;
  * caso de que seleccione una consulta), o bien un mensaje de confirmación (en
  * caso que realice una inserción o un borrado).
  * 
- 
- * 
- * El menu solo puede ejecutar una única opción ya que no lo he conseguido colocar dentro 
- * de un bucle infinito.  Hay que iniciar cada vez la aplicación.
+ * * utilizar variables ligadas para realizar
+ * instrucciones Xquery con datos que introduce el usuario. Para ello, se partirá
+ * de la clase Persona con la que hemos trabajado y de la funcionalidad*desarrollada 
+ * en la práctica 5c, y se ampliarán los siguientes conceptos:
  * 
  * */
 
@@ -84,6 +89,17 @@ public class GestionBdXQJ {
 //				System.out.println("Error!!  no se ha podido cerrar");
 //			}
 //		}
+	 
+	 //Método  Actividad 5e Añadir un elemento “fecha_nacimiento” y un atributo “identificador” del
+	 //elemento “persona” que sea un entero
+	 public Persona addElementF(String fecha_nacimiento, int id){
+		
+		 
+		 return null;
+		 
+	 }
+	 
+	 
 	 
 	 public Persona recuperarPersonasAll(){
 			conectar();
@@ -191,12 +207,12 @@ public class GestionBdXQJ {
 	}//Fin metodo recuperarPersonaPorDni
 		
 		/**
-	 * @method public void insertarPersona(String dni, String nombre, int edad).
+	 * @method public void insertarPersona(String dni, String nombre, int edad). Modificado para nuevos campos en Act5e
 	 *         Añade la persona con los datos pasados por parámetro. Para ello
 	 *         se realizará una instrucción Xquery utilizando “insert node” y
 	 *         utilizando las etiquetas adecuadas para cada elemento.
 	 * */
-		 public void insertarPersona(String dni, String nombre, int edad){
+		 public void insertarPersona(String dni, String nombre, String fecha_nacimiento,int edad){
 			 
 			 conectar();
 				try{
@@ -210,9 +226,10 @@ public class GestionBdXQJ {
 				 *  Creo el objeto xqe que lo obtengo de XQConnection (conn)mediante createExpression*/
 				XQExpression xqe = conn.createExpression();
 				// Preparamos la instrucción de insercion para BaseX  
+				//"insert node  <persona id="+id+"><dni>" + dni, no cosigo insertar el atributo me da error
 				/**Creamos un string para realizar la Consulta*/
 				String cadInsert = "insert node  <persona><dni>" + dni
-					+ "</dni><nombre>" + nombre + "</nombre><edad>" + edad
+					+ "</dni><nombre>" + nombre + "</nombre><fecha_nacimiento>"+fecha_nacimiento+"</fecha_nacimiento><edad>" + edad
 					+ "</edad></persona> into doc('personas') /personas";
 
 				/**Ejecutamos:
@@ -307,6 +324,313 @@ public class GestionBdXQJ {
 			}
 				return;
 		}//Fin metodo
+		 
+		 //Método buscar por rango de edad para Act5e 
+		 public void buscarPorEdad(int edad1, int edad2){
+			 conectar();
+				try{
+					/** Creamos XQExpression:  para la ejecución inmediata de sentencias XQuery
+				 *  Este objeto puede ser creado a partir de la XQConnection y la ejecución se puede 
+				 *  hacer usando el executeQuery() o executeCommand() método, que pasa en la expresión XQuery.
+				 *  
+				 *  Sirve para ejecutar sentencias de consulata: conjunto de resultados, y pueden procesar ordenes 
+				 *  de insercion, eliminacion y actualizacion.
+				 *  
+				 *  Creo el objeto xqe que lo obtengo de XQConnection (conn)mediante createExpression*/
+				XQExpression xqe = conn.createExpression();
+				// Preparamos la instrucción para BaseX, en este caso solicito que me devuelva todas las personas por edad
+				 
+				String cadConsultaEdad=  "doc('personas')/personas/persona[edad="+edad1+" or edad="+edad2+"]";
+
+				/**Ejecutamos:
+				 * 
+				 * Las sentencias de consultas XQExpression pueden devolver un CONJUNTO DE RESULTADOS, 
+				 * en caso de querer obtener resultados.
+				 * 
+				 * Esta interfaz XQResultSequence representa una secuencia de elementos obtenidos 
+				 * como resultado de expresiones XQuery evaluación.
+				 * La secuencia resultado está ligada a la XQconnection objeto en el que se evaluó la expresión.
+				 * */
+				System.out.println("Ejecutamos consulta: " + cadConsultaEdad);	
+				/** Ejecutamos la consulta  xqe.executeQuery pasandole la cadena y 
+				 * obtenemos en el  XQResultSequence xqrs el resultado de esa ejecución*/
+				XQResultSequence xqrs = xqe.executeQuery(cadConsultaEdad);
+				
+				/**Para poder mostrar los resultados, uno a uno, convertidos a String mediante un bucle While
+				 * utilizando el método next, vamos recorriendo y con xqrs.getItemAsString(null), va a mostrar
+				 * los distintos dni de las personas que hay.*/
+				System.out.println("\nLos resultados son: ");
+				while (xqrs.next())
+					System.out.println(xqrs.getItemAsString(null));
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally { /** Cerramos la sesión*/
+				try {
+					if (conn != null)
+						conn.close();
+					System.out.println("Conexión cerrada correctamente");
+				} catch (XQException xe) {
+					xe.printStackTrace();
+					System.out.println("Error!!  no se ha podido cerrar");
+				}
+			}
+				return;
+		 }
+		 
+		 
+		 //Método bsucar por id para Act5e
+		 
+		 public void buscarPorId(int id1, int id2){
+			
+			 conectar();
+				try{
+					/** Creamos XQExpression:  para la ejecución inmediata de sentencias XQuery
+				 *  Este objeto puede ser creado a partir de la XQConnection y la ejecución se puede 
+				 *  hacer usando el executeQuery() o executeCommand() método, que pasa en la expresión XQuery.
+				 *  
+				 *  Sirve para ejecutar sentencias de consulata: conjunto de resultados, y pueden procesar ordenes 
+				 *  de insercion, eliminacion y actualizacion.
+				 *  
+				 *  Creo el objeto xqe que lo obtengo de XQConnection (conn)mediante createExpression*/
+				XQExpression xqe = conn.createExpression();
+				// Preparamos la instrucción para BaseX, en este caso solicito que me devuelva todas las personas por id
+				 
+				String cadConsultaId =  "doc('personas')/personas/persona[@id>"+id1+" and @id<"+id2+"]";
+
+				/**Ejecutamos:
+				 * 
+				 * Las sentencias de consultas XQExpression pueden devolver un CONJUNTO DE RESULTADOS, 
+				 * en caso de querer obtener resultados.
+				 * 
+				 * Esta interfaz XQResultSequence representa una secuencia de elementos obtenidos 
+				 * como resultado de expresiones XQuery evaluación.
+				 * La secuencia resultado está ligada a la XQconnection objeto en el que se evaluó la expresión.
+				 * */
+				System.out.println("Ejecutamos consulta: " + cadConsultaId);	
+				/** Ejecutamos la consulta  xqe.executeQuery pasandole la cadena y 
+				 * obtenemos en el  XQResultSequence xqrs el resultado de esa ejecución*/
+				XQResultSequence xqrs = xqe.executeQuery(cadConsultaId);
+				
+				/**Para poder mostrar los resultados, uno a uno, convertidos a String mediante un bucle While
+				 * utilizando el método next, vamos recorriendo y con xqrs.getItemAsString(null), va a mostrar
+				 * los distintos dni de las personas que hay.*/
+				System.out.println("\nLos resultados son: ");
+				while (xqrs.next())
+					System.out.println(xqrs.getItemAsString(null));
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally { /** Cerramos la sesión*/
+				try {
+					if (conn != null)
+						conn.close();
+					System.out.println("Conexión cerrada correctamente");
+				} catch (XQException xe) {
+					xe.printStackTrace();
+					System.out.println("Error!!  no se ha podido cerrar");
+				}
+			}
+				return;
+		 }
+		 //MENUS
+		 public void lanzarMenuPrincipal(){
+			// Creamos la entrada de datos por consola, almacenando en un buffer
+				// lector, usamos envolturas 1 trimestre
+				BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+				// Creamos variable para recoger la opcion del usuario
+				int userOpcion;
+					
+				// Opciones: recuperar una persona por DNI, insertar y borrar.
+				System.out.println("         ******                                   ******");
+				System.out.println("         ******   ¡Bienvenido al menú Principal!   ******\n");
+				System.out.println("            	 	 1- Gestionar BD");
+				System.out.println("            	           2- Salir ");          	   
+				System.out.println("                  ****** ****** ****** ******");
+				System.out.println("                         ****** ****** ");
+				System.out.println("                            ****** ");
+				System.out.print("Escoge una opción y pulsa enter/intro: ");
+				try {
+					userOpcion = Integer.parseInt(in.readLine());
+				
+					/**
+					 * Creo un swicth, para elección, siendo cada numero un case
+					 * case
+					 */
+					
+					switch (userOpcion) {
+					case 1:
+						System.out.println("Opción escogida: \"" + userOpcion
+								+ "\" Gestionar");
+						lanzarMenuBD();
+									
+						System.out.println("************");
+						break;
+					
+					case 2:
+						System.out.println("Opción escogida: \"" + userOpcion
+								+ "\" Salir. \n");
+					
+									
+						System.out.println("  ****** Terminado ******");
+						System.out.println("****** Vuelve pronto!! ******");
+						break;
+					
+					default:
+						break;
+					}
+				} catch (InputMismatchException e) {
+					System.out.println("Has de introducir un entero!  " + e);
+
+				} catch (NumberFormatException nfe) {
+					System.out.println("Error");
+					nfe.printStackTrace();
+				} catch (IOException ioe) {
+					System.out.println("Error");
+					ioe.printStackTrace();
+				};
+				
+		 }
+		 
+		 public void lanzarMenuBD(){
+			// Creamos la entrada de datos por consola, almacenando en un buffer
+				// lector, usamos envolturas 1 trimestre
+				BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+				// Creamos variable para recoger la opcion del usuario
+				int userOpcion;
+				String userIntroDni;
+				String userAddPersona;
+				String userDeletePers;
+				String dni;
+				int userEdad1;
+				int userEdad2;
+				int id1;
+				int id2;
+				
+				
+				// Opciones: recuperar una persona por DNI, insertar y borrar.
+				System.out.println("         ******                                   ******");
+				System.out.println("         ******   ¡Bienvenido al menú de tu BD!   ******\n");
+				
+				System.out.println("            	 1- Recuperar persona por DNI");
+				System.out.println("            	     2- Insertar persona");
+				System.out.println("            	      3- Borrar persona");
+				System.out.println("              4- \"NOVEDAD\" Busca por edad");
+				System.out.println("              5- \"NOVEDAD\" Busca por Id");
+				System.out.println("            	         6- Ver todo");
+				System.out.println("            	            7- Salir");
+				System.out.println("                   ****** ****** ****** ******");
+				System.out.println("                          ****** ****** ");
+				System.out.println("                             ****** ");
+				System.out.print("Escoge una opción y pulsa enter/intro: ");
+				
+				try {
+					userOpcion = Integer.parseInt(in.readLine());
+					
+					//userIntroDni = in.readLine();
+					/**
+					 * Creo un swicth, para elección, siendo cada numero un case
+					 * case
+					 */
+					//Creo un objeto de la clase GestionBdXQJ
+					GestionBdXQJ gestorXQJ = new GestionBdXQJ();
+					switch (userOpcion) {
+					case 1:
+						System.out.println("\nOpción escogida: \"" + userOpcion
+								+ "\"Recuperar persona por DNI");
+						System.out.print("Introduce el dni de la persona: ");
+						
+						gestorXQJ.recuperarPersonaPorDni(userIntroDni = in.readLine());
+
+						System.out.println("ok");
+						System.out.println("\nVolviendo al menú principal...\n");
+						lanzarMenuPrincipal();
+						break;
+					case 2:
+						System.out.println("Opción escogida: \"" + userOpcion
+								+ "\" Insertar persona");
+						System.out.println("Insertando persona...Pulsa enter para completar");
+						userAddPersona = in.readLine();
+						gestorXQJ.insertarPersona("21001001Q","Tara","17/04/2003",11);			
+						System.out.println("************");
+						System.out.println("\nVolviendo al menú principal...\n");
+						lanzarMenuPrincipal();
+						break;
+					case 3:
+						System.out.println("Opción escogida :  \"" + userOpcion
+								+ "\" Borrar persona");
+						System.out.println("Inserta un dni para eliminar a esa persona");
+						userDeletePers = in.readLine();
+						gestorXQJ.borrarPersona("2920528W");
+						System.out.println("\nVolviendo al menú principal...\n");
+						lanzarMenuPrincipal();
+						break;
+					case 4:
+						System.out.println("\nOpción escogida: \"" + userOpcion
+								+ "\"\"**NOVEDAD**\" Busca por edad");
+						System.out.print("Introduce las edades para buscar las persona: ");
+						
+						gestorXQJ.buscarPorEdad(userEdad1 = Integer.parseInt(in.readLine()), userEdad2 = Integer.parseInt(in.readLine()));
+
+						System.out.println("ok");
+						System.out.println("\nVolviendo al menú principal...\n");
+						lanzarMenuPrincipal();
+						break;	
+						case 5:
+							System.out.println("\nOpción escogida: \"" + userOpcion
+									+ "\"\"**NOVEDAD**\" Busca por Id");
+							System.out.print("Introduce los id para buscar las personas: ");
+							
+							gestorXQJ.buscarPorId(id1 = Integer.parseInt(in.readLine()), id2 = Integer.parseInt(in.readLine()));
+
+							System.out.println("ok");
+							System.out.println("\nVolviendo al menú principal...\n");
+							lanzarMenuPrincipal();
+							break;	
+					case 6:
+						String userFind;
+						System.out.println("Mostrando todos los resultados... ");
+						System.out.println("Pulsa enter para continuar!");
+						userFind = in.readLine();
+						gestorXQJ.recuperarPersonasAll();
+						System.out.println("\nVolviendo al menú principal...\n");
+						lanzarMenuPrincipal();
+						break;
+						
+					case 7:
+						String userExit;
+						System.out.println("Finalizado \"" + userOpcion
+								+ "\"****");
+						userExit = in.readLine();
+						System.exit(userOpcion);
+						System.out.println("\nVolviendo al menú principal...\n");
+						lanzarMenuPrincipal();
+						break;
+					
+					 
+					default:
+						System.out.println("\nVolviendo al menú principal...\n");
+						lanzarMenuPrincipal();
+						break;
+					}
+				} catch (InputMismatchException e) {
+					System.out.println("Has de introducir un entero!  " + e);
+
+				} catch (NumberFormatException nfe) {
+					System.out.println("Error");
+					nfe.printStackTrace();
+				} catch (IOException ioe) {
+					System.out.println("Error");
+					ioe.printStackTrace();
+				}
+
+				// Podría usar también if
+				// if (userOpcion==1)
+				// {
+				// System.out.println("Escribe el  ");
+				//
+				// }
+				// if (userOpcion==2)
+				// {
+		 }
 		 
 		
 }

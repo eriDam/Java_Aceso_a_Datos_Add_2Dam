@@ -34,7 +34,7 @@ public class Connect {
 		/**comprobamos la inserción consultando todas las personas de nuevo*/
 		System.out.println("****************");
 		gestorBX.recuperarPersonasAll();
-		
+		gestorBX.recuperarPersonaPorNombreLista("Tara");
 		gestorBX.recuperarPersonaPorNombre("Ana");
 		
 		gestorBX.recuperarPersonaPorDni("2920528W");
