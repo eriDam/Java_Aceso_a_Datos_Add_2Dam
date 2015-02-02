@@ -4,10 +4,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.InputMismatchException;
 
+import javax.xml.namespace.QName;
 import javax.xml.xquery.XQConnection;
 import javax.xml.xquery.XQDataSource;
 import javax.xml.xquery.XQException;
 import javax.xml.xquery.XQExpression;
+import javax.xml.xquery.XQItemType;
 import javax.xml.xquery.XQResultSequence;
 
 /**
@@ -325,7 +327,107 @@ public class GestionBdXQJ {
 				return;
 		}//Fin metodo
 		 
-		 //Método buscar por rango de edad para Act5e 
+		 //Metodo para introducir edad en el método variables ligadas
+		 private static String introducirEdad() {
+		 // Creamos objeto para la entrada de datos por consola, almacenando en un buffer
+			// lector, usamos envolturas 1 trimestre
+			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+			
+			// Creamos objeto para recoger la opcion del usuario
+			String textUs = null;
+			
+			//Pedimos datos:
+			
+			try {
+				textUs = br.readLine();
+			} catch (IOException e) {
+				System.out.println("Excepción al leer el dato introducido:");
+				System.err.println(e);
+			}
+			return textUs;
+		}
+		 
+		 
+		 
+		 //Metodo para buscar por  edad determinada con variables ligadas (no consigo pasar  dos parametros)
+		 public void buscarPorEdadVariables(){
+			 conectar();
+				try{
+					/** Creamos XQExpression:  para la ejecución inmediata de sentencias XQuery
+				 *  Este objeto puede ser creado a partir de la XQConnection y la ejecución se puede 
+				 *  hacer usando el executeQuery() o executeCommand() método, que pasa en la expresión XQuery.
+				 *  
+				 *  Sirve para ejecutar sentencias de consulta: conjunto de resultados, y pueden procesar ordenes 
+				 *  de insercion, eliminacion y actualizacion.
+				 *  
+				 *  Creo el objeto xqe que lo obtengo de XQConnection (conn)mediante createExpression*/
+				
+					
+
+						// Pedimos edad al usuario
+					System.out.println("Introduce la edad a buscar: ");
+						String edad = introducirEdad();
+						if ("".equals(edad)) {
+							System.out.println("No se ha introducido ninguna edad.");
+							System.exit(1);
+					}		
+				XQExpression xqe = conn.createExpression();
+			
+				/**Para evitar acceso a datos confidenciales en la base de datos, XQuery 
+				 * nos permite declarar VARIABLE EXTERNAS y de alguna forma ligarlas
+				 * a la sentencia XQuery con los valores que corresponda.  Para no introducir
+				 * directamente el texto que teclea el usuario
+				 * 
+				 * Ver info XQDinamicContext, esta Super interfaz nos ofrece una
+				 * serie de métodos, por ej bindAtomicValue que permite asignar 
+				 * el contenido de una variable string a una variable externa,
+				 * el primer parámetro el nombre variable que pondremos en el código XQuery,
+				 *  segundo parametro seria el valor que introducimos, XQBASETYPE_INT asegurará 
+				 *  que el tipo es entero y si no no habremos introducido una edad*/
+				
+				try{
+				
+					xqe.bindAtomicValue(new QName("edad_buena"),edad,
+					conn.createAtomicType(XQItemType.XQBASETYPE_INT));
+//					xqe.bindAtomicValue(new QName("edad_buena2"), ed2,
+//							conn.createAtomicType(XQItemType.XQBASETYPE_INT));
+				} catch (XQException e) {
+					throw new Exception("No se ha introducido una edad correcta.");
+				}
+				
+				/**Preparamos la instrucción para BaseX donde pediremos los usuarios
+				 *  que tengan una determinada edad, definimos la variable externa delante del for
+				 *   con declare variable $loquesea external;
+				 *   
+				 *   Antes teníamos cad= "for $c in doc('personas')/personas/persona where $c/edad/text()='"+edad+'"
+				 *   Si el usuario probase a introducir 35' or '1'='1 con este codigo muestra cualquier resultado, aqui es donde se cambia
+				 *   por variables ligadas externas para limitar el acceso*/
+				String cadEdV;
+				cadEdV = "declare variable $edad_buena external; "+"for $c in doc('personas')/personas/persona where $c/edad/text()= $edad_buena return $c/nombre";
+
+				// Ejecutamos
+				System.out.println("Ejecutamos la consulta de edad: " + cadEdV);
+				XQResultSequence xqrs = xqe.executeQuery(cadEdV);
+				// Mostramos los resultados, uno a uno, convertidos a String
+				System.out.println("\nResultados:");
+				while (xqrs.next())
+					System.out.println(xqrs.getItemAsString(null));
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally { // Cerramos la sesión
+				try {
+					if (conn != null)
+						conn.close();
+				} catch (XQException xe) {
+					xe.printStackTrace();
+				}
+		
+		 }
+		 
+				}
+		 
+		 
+		 //Método buscar por rango de edad PRUEBA sin variables ligadas
 		 public void buscarPorEdad(int edad1, int edad2){
 			 conectar();
 				try{
@@ -378,7 +480,7 @@ public class GestionBdXQJ {
 		 }
 		 
 		 
-		 //Método bsucar por id para Act5e
+		 //Método bsucar por id para Act5e sin variables ligadas
 		 
 		 public void buscarPorId(int id1, int id2){
 			
@@ -395,7 +497,7 @@ public class GestionBdXQJ {
 				XQExpression xqe = conn.createExpression();
 				// Preparamos la instrucción para BaseX, en este caso solicito que me devuelva todas las personas por id
 				 
-				String cadConsultaId =  "doc('personas')/personas/persona[@id>"+id1+" and @id<"+id2+"]";
+				String cadConsultaId =  "doc('personas')/personas/persona[@id>="+id1+" and @id<="+id2+"]";
 
 				/**Ejecutamos:
 				 * 
@@ -459,7 +561,7 @@ public class GestionBdXQJ {
 					switch (userOpcion) {
 					case 1:
 						System.out.println("Opción escogida: \"" + userOpcion
-								+ "\" Gestionar");
+								+ "\" Gestionar Base de datos\n");
 						lanzarMenuBD();
 									
 						System.out.println("************");
@@ -507,19 +609,22 @@ public class GestionBdXQJ {
 				
 				
 				// Opciones: recuperar una persona por DNI, insertar y borrar.
-				System.out.println("         ******                                   ******");
-				System.out.println("         ******   ¡Bienvenido al menú de tu BD!   ******\n");
+				System.out.println("        ******                                   ******");
+				System.out.println("      ********                                   ********");
+				System.out.println("**************   ¡Bienvenido al menú de tu BD!   **************\n");
 				
-				System.out.println("            	 1- Recuperar persona por DNI");
-				System.out.println("            	     2- Insertar persona");
-				System.out.println("            	      3- Borrar persona");
-				System.out.println("              4- \"NOVEDAD\" Busca por edad");
-				System.out.println("              5- \"NOVEDAD\" Busca por Id");
-				System.out.println("            	         6- Ver todo");
-				System.out.println("            	            7- Salir");
-				System.out.println("                   ****** ****** ****** ******");
-				System.out.println("                          ****** ****** ");
-				System.out.println("                             ****** ");
+				System.out.println("              1- Recuperar persona por DNI");
+				System.out.println("              2- Insertar persona");
+				System.out.println("              3- Borrar persona");
+				System.out.println("              4- \"NOVEDAD\" Busca por rango de edad");		
+				System.out.println("              5- \"NOVEDAD\" Busca por rango de Id");
+				System.out.println("              6- \"NOVEDAD\" buscar Por Edad Variables");
+				System.out.println("              7- Ver todo");
+				System.out.println("              8- Salir");
+				
+				System.out.println("               ****** ****** ****** ****** ******");
+				System.out.println("                      ******  ****** ****** ");
+				System.out.println("                           ****** ****** ");
 				System.out.print("Escoge una opción y pulsa enter/intro: ");
 				
 				try {
@@ -557,15 +662,15 @@ public class GestionBdXQJ {
 					case 3:
 						System.out.println("Opción escogida :  \"" + userOpcion
 								+ "\" Borrar persona");
-						System.out.println("Inserta un dni para eliminar a esa persona");
+						System.out.println("Inserta un dni para eliminar a esa persona: ");
 						userDeletePers = in.readLine();
-						gestorXQJ.borrarPersona("2920528W");
+						gestorXQJ.borrarPersona(userDeletePers);
 						System.out.println("\nVolviendo al menú principal...\n");
 						lanzarMenuPrincipal();
 						break;
 					case 4:
 						System.out.println("\nOpción escogida: \"" + userOpcion
-								+ "\"\"**NOVEDAD**\" Busca por edad");
+								+ "\"NOVEDAD\" Busca por edad");
 						System.out.print("Introduce las edades para buscar las persona: ");
 						
 						gestorXQJ.buscarPorEdad(userEdad1 = Integer.parseInt(in.readLine()), userEdad2 = Integer.parseInt(in.readLine()));
@@ -574,9 +679,9 @@ public class GestionBdXQJ {
 						System.out.println("\nVolviendo al menú principal...\n");
 						lanzarMenuPrincipal();
 						break;	
-						case 5:
+					case 5:
 							System.out.println("\nOpción escogida: \"" + userOpcion
-									+ "\"\"**NOVEDAD**\" Busca por Id");
+									+ "\"\"**NOVEDAD**\" Busca por rango de Id");
 							System.out.print("Introduce los id para buscar las personas: ");
 							
 							gestorXQJ.buscarPorId(id1 = Integer.parseInt(in.readLine()), id2 = Integer.parseInt(in.readLine()));
@@ -586,6 +691,17 @@ public class GestionBdXQJ {
 							lanzarMenuPrincipal();
 							break;	
 					case 6:
+						System.out.println("\nOpción escogida: \"" + userOpcion
+								+ "\"\"**NOVEDAD**\" Busca por edad con variables ligadas");
+						//System.out.print("Introduce la edad para buscar las persona: ");
+						
+						gestorXQJ.buscarPorEdadVariables();
+
+						System.out.println("ok");
+						System.out.println("\nVolviendo al menú principal...\n");
+						lanzarMenuPrincipal();
+						break;		
+					case 7:
 						String userFind;
 						System.out.println("Mostrando todos los resultados... ");
 						System.out.println("Pulsa enter para continuar!");
@@ -595,7 +711,7 @@ public class GestionBdXQJ {
 						lanzarMenuPrincipal();
 						break;
 						
-					case 7:
+					case 8:
 						String userExit;
 						System.out.println("Finalizado \"" + userOpcion
 								+ "\"****");
@@ -604,6 +720,7 @@ public class GestionBdXQJ {
 						System.out.println("\nVolviendo al menú principal...\n");
 						lanzarMenuPrincipal();
 						break;
+						
 					
 					 
 					default:
@@ -631,6 +748,8 @@ public class GestionBdXQJ {
 				// if (userOpcion==2)
 				// {
 		 }
+
+		 
 		 
 		
 }
