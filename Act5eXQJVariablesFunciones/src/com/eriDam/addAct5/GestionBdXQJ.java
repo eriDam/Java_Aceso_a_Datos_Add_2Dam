@@ -350,7 +350,7 @@ public class GestionBdXQJ {
 		 
 		 
 		 //Metodo para buscar por  edad determinada con variables ligadas (no consigo pasar  dos parametros)
-		 public void buscarPorEdadVariables(){
+		 public void buscarPorEdadVariables(String eMinima, String eMax){
 			 conectar();
 				try{
 					/** Creamos XQExpression:  para la ejecución inmediata de sentencias XQuery
@@ -363,14 +363,14 @@ public class GestionBdXQJ {
 				 *  Creo el objeto xqe que lo obtengo de XQConnection (conn)mediante createExpression*/
 				
 					
-
-						// Pedimos edad al usuario
-					System.out.println("Introduce la edad a buscar: ");
-						String edad = introducirEdad();
-						if ("".equals(edad)) {
-							System.out.println("No se ha introducido ninguna edad.");
-							System.exit(1);
-					}		
+//
+//						// Pedimos edad al usuario
+//					System.out.println("Introduce la edad a buscar: ");
+//						String edad = introducirEdad();
+//						if ("".equals(edad)) {
+//							System.out.println("No se ha introducido ninguna edad.");
+//							System.exit(1);
+//					}		
 				XQExpression xqe = conn.createExpression();
 			
 				/**Para evitar acceso a datos confidenciales en la base de datos, XQuery 
@@ -386,9 +386,10 @@ public class GestionBdXQJ {
 				 *  que el tipo es entero y si no no habremos introducido una edad*/
 				
 				try{
-				
-					xqe.bindAtomicValue(new QName("edad_buena"),edad,
-					conn.createAtomicType(XQItemType.XQBASETYPE_INT));
+					xqe.bindAtomicValue(new QName("edad_minima"), eMinima,
+							conn.createAtomicType(XQItemType.XQBASETYPE_INTEGER));
+//					xqe.bindAtomicValue(new QName("edad_buena"),edad,
+//					conn.createAtomicType(XQItemType.XQBASETYPE_INT));
 //					xqe.bindAtomicValue(new QName("edad_buena2"), ed2,
 //							conn.createAtomicType(XQItemType.XQBASETYPE_INT));
 				} catch (XQException e) {
@@ -403,7 +404,7 @@ public class GestionBdXQJ {
 				 *   Si el usuario probase a introducir 35' or '1'='1 con este codigo muestra cualquier resultado, aqui es donde se cambia
 				 *   por variables ligadas externas para limitar el acceso*/
 				String cadEdV;
-				cadEdV = "declare variable $edad_buena external; "+"for $c in doc('personas')/personas/persona where $c/edad/text()= $edad_buena return $c/nombre";
+				cadEdV = "declare variable $edad_minima external; "+"for $c in doc('personas')/personas/persona where $c/edad/text()= $edad_minima return $c/nombre";
 
 				// Ejecutamos
 				System.out.println("Ejecutamos la consulta de edad: " + cadEdV);
@@ -604,6 +605,8 @@ public class GestionBdXQJ {
 				String dni;
 				int userEdad1;
 				int userEdad2;
+				String edad1;
+				String edad2;
 				int id1;
 				int id2;
 				
@@ -693,9 +696,10 @@ public class GestionBdXQJ {
 					case 6:
 						System.out.println("\nOpción escogida: \"" + userOpcion
 								+ "\"\"**NOVEDAD**\" Busca por edad con variables ligadas");
-						//System.out.print("Introduce la edad para buscar las persona: ");
-						
-						gestorXQJ.buscarPorEdadVariables();
+						System.out.print("Introduce las edades para buscar las persona: ");
+						edad1=in.readLine();
+						edad2=in.readLine();
+						gestorXQJ.buscarPorEdadVariables(edad1,edad2);
 
 						System.out.println("ok");
 						System.out.println("\nVolviendo al menú principal...\n");
