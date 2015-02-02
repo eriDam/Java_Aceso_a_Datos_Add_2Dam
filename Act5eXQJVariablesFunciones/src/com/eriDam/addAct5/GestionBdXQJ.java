@@ -388,6 +388,8 @@ public class GestionBdXQJ {
 				try{
 					xqe.bindAtomicValue(new QName("edad_minima"), eMinima,
 							conn.createAtomicType(XQItemType.XQBASETYPE_INTEGER));
+					xqe.bindAtomicValue(new QName("edad_max"), eMax,
+							conn.createAtomicType(XQItemType.XQBASETYPE_INTEGER));
 //					xqe.bindAtomicValue(new QName("edad_buena"),edad,
 //					conn.createAtomicType(XQItemType.XQBASETYPE_INT));
 //					xqe.bindAtomicValue(new QName("edad_buena2"), ed2,
@@ -404,7 +406,14 @@ public class GestionBdXQJ {
 				 *   Si el usuario probase a introducir 35' or '1'='1 con este codigo muestra cualquier resultado, aqui es donde se cambia
 				 *   por variables ligadas externas para limitar el acceso*/
 				String cadEdV;
-				cadEdV = "declare variable $edad_minima external; "+"for $c in doc('personas')/personas/persona where $c/edad/text()= $edad_minima return $c/nombre";
+				cadEdV = "declare variable $edad_minima external;"+ 
+						"declare variable $edad_max external;"+
+						"for $c in doc('personas')/personas/persona"+
+						" where $c/edad/text() >= $edad_minima and " +
+						"$c/edad/text() <= $edad_max" +
+						" return $c/nombre/text()";
+				
+
 
 				// Ejecutamos
 				System.out.println("Ejecutamos la consulta de edad: " + cadEdV);
