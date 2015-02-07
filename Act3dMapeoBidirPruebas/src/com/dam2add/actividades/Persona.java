@@ -16,7 +16,7 @@ import javax.persistence.OneToOne;
 *Ser una clase de primer nivel (no interna)
 *No ser final. Implementar la interface java.io.Serializabe si va a ser accedida remotamente
 *
-*Utilizando arroba Entity delante, indicamos al proveedor de persistencia que será una entidad, 
+*Utilizando arroba Entity delante, indicamos al proveedor de persistencia que será una entidad, tabla
 *(será un objeto de persistencia con el entity manager)Para ser válida,*/
 @Entity
 public class Persona implements Serializable {
@@ -38,31 +38,75 @@ public class Persona implements Serializable {
 	 
 	@ManyToOne 
 	private Empresa nombreE;
-	//Establecemos la relación con la otra tabla
-	//la anotación  OneToOne  tiene un parámetro que se denomina mappedBy y cuyo valor es “persona”. Este parámetro hace 
-	//referencia a que la relación ya fue construida por la otra clase “Empresa” a traves de su variable “persona”
-	@OneToOne(mappedBy = "persona")
+	// Persona es la clase propietaria de la relación con Nómina
+		// UNA persona, puede tener UNA nómina.
+		// CascadeType.ALL = Todas las operaciones (MERGE, PERSIST, REFRESH, REMOVE) 
+		// afectan en cascada a la nómina relacionada.
+		@OneToOne(cascade = CascadeType.ALL)            	
+		private Nomina nomina;
 	private Nomina retribucion;
-	//private List<Empresa> listaEmpresas;
+ 
+	
+	
 	
 	public Persona() {
 		
 	}
-	//Constructor al que le paso Nomina y List empresas
-	public Persona(String d, int e,String n, Empresa nomE) {
-		dni = d;
-		edad = e;
-		nombre = n;
-		nombreE = nomE;
+	
+	//Constructor al que le paso dni, edad y nombre pero no la Nomina ni la empresa
+	public Persona(String dni, int edad,String nom ) {
+		dni = dni;
+		edad = edad;
+		nombre = nom;
+		this.nombreE = null;
+	 
+				
+				// Datos por omisión
+				this.nombreE = null;
+				this.nomina = null;
 		
 	}
 	
+	//Getters and setters para coger get y poner set
+	
+	public String getDni() {
+		return dni;
+	}
+
+	public void setDni(String dni) {
+		this.dni = dni;
+	}
+
+	public int getEdad() {
+		return edad;
+	}
+
+	public void setEdad(int edad) {
+		this.edad = edad;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
 	public Empresa getNombreE() {
 		return nombreE;
 	}
 
 	public void setNombreE(Empresa nombreE) {
 		this.nombreE = nombreE;
+	}
+
+	public Nomina getNomina() {
+		return nomina;
+	}
+
+	public void setNomina(Nomina nomina) {
+		this.nomina = nomina;
 	}
 
 	public Nomina getRetribucion() {
@@ -73,36 +117,17 @@ public class Persona implements Serializable {
 		this.retribucion = retribucion;
 	}
 
-	 
-
-	 
-
-	public String getDni() {
-	 return dni;
+	@Override
+	public String toString() {
+		return "Persona [dni=" + dni + ", edad=" + edad + ", nombre=" + nombre
+				+ ", nombreE=" + nombreE + ", retribucion=" + retribucion
+				+ "]";
 	}
-
-	public String getNombre() {
-		return nombre;
-	}
-
-	public int getEdad() {
-		return edad;
-	}
-	
-	public void setDni(String d) {
-		dni = d;
-	}
-
-	public void setNombre(String n) {
-		nombre = n;
-	}
-
-	public void setEdad(int e) {
-		edad = e;
-	}
-	
 	public void print(){
-		System.out.println("Dni: "+dni+" Nombre: "+nombre+" y edad "+edad);
+		System.out.println("Persona [dni=" + dni + ", edad=" + edad + ", nombre=" + nombre
+				+ ", nombreE=" + nombreE + ", retribucion=" + retribucion
+				+  "]");
+		
 		 
 	}
 	

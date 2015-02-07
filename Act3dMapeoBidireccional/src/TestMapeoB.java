@@ -20,7 +20,7 @@ public class TestMapeoB {
 			System.out.println("***Persona creada***"); 
 			p.print();
 			
-			//Creo Empresa
+//			//Creo Empresa
 //			System.out.println("Creando Empresa...");
 //			em.getTransaction().begin();
 //			Query q = em.createQuery("SELECT p FROM Persona p");
@@ -36,6 +36,6 @@ public class TestMapeoB {
 			em.close();
 		}	     
 
-	}
+			}
 	 
 }
