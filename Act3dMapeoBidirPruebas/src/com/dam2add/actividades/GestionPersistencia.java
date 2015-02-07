@@ -24,7 +24,7 @@ import javax.persistence.TypedQuery;
  */
 public class GestionPersistencia {
 	
-	private final static String UNIT = "UnitPersonas3d"; // Nombre de la Persistence Unit
+	private final static String UNIT = "UnitPersonas"; // Nombre de la Persistence Unit
 	EntityManagerFactory emf = null;                 // EntityManagerFactory
 	EntityManager em = null;                         // EntityManager
 	

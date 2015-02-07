@@ -18,6 +18,7 @@ import javax.persistence.OneToOne;
 *
 *Utilizando arroba Entity delante, indicamos al proveedor de persistencia que será una entidad, tabla
 *(será un objeto de persistencia con el entity manager)Para ser válida,*/
+
 @Entity
 public class Persona implements Serializable {
 
@@ -44,7 +45,7 @@ public class Persona implements Serializable {
 		// afectan en cascada a la nómina relacionada.
 		@OneToOne(cascade = CascadeType.ALL)            	
 		private Nomina nomina;
-	private Nomina retribucion;
+	   
  
 	
 	
@@ -109,27 +110,17 @@ public class Persona implements Serializable {
 		this.nomina = nomina;
 	}
 
-	public Nomina getRetribucion() {
-		return retribucion;
-	}
-
-	public void setRetribucion(Nomina retribucion) {
-		this.retribucion = retribucion;
-	}
-
 	@Override
 	public String toString() {
 		return "Persona [dni=" + dni + ", edad=" + edad + ", nombre=" + nombre
-				+ ", nombreE=" + nombreE + ", retribucion=" + retribucion
-				+ "]";
+				+ ", nombreE=" + nombreE + ", nomina=" + nomina + "]";
 	}
-	public void print(){
-		System.out.println("Persona [dni=" + dni + ", edad=" + edad + ", nombre=" + nombre
-				+ ", nombreE=" + nombreE + ", retribucion=" + retribucion
-				+  "]");
-		
-		 
-	}
+
+ 
+
+	 
+ 
+	 
 	
 }
 

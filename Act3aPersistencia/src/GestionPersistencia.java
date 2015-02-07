@@ -12,28 +12,39 @@ import javax.persistence.TypedQuery;
 
 					/*
 					 * Para crear un entityManager necesitamos:
-					 * 	 -1 fichero persistence.xml donde se especificará un peristence unit
+					 * 	 -1º fichero persistence.xml donde se especificará un peristence unit
 					 *  	o varias si se quiere, ubicado en META-INF.
-					 *   -Se necesita agregar al proyecto, en el build path las 3 librerias:
+					 *  
+					 *   -2º Si queremos utilizar JPA Se necesita agregar al proyecto, en el build path las 3 librerias
+					 *   externas que estan en el eclipse link descargado:
 					 * 			 eclipseLink.jar
 					 * 			 javax.persistence_2.1.0v...jar
 					 * 			 mysql-conector-java5.1.31.jar
-					 * 	-Crear un entityManager a partir de esta UP unidad de persistencia(peristence unit)
-					 * 	-Obtener el entityManager 		
+					 * 
+					 * 	-3º Crear un entityManager a partir de esta UP unidad de persistencia(peristence unit)
+					 * 
+					 * 	-4º Obtener el entityManager 		
 					 * 		Código:
                      * 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("UnitPersonas");
  	                 *      EntityManager em = emf.createEntityManager();
+ 	                 *  -5º Arrancar el sevidor con Xampp (es el que uso), arrancamos php(para el phpMyadmin)y Mysql
+ 	                 *  
+ 	                 *  -6º Run java aplication por si no va bien y conecta y ejecuta la app
  	                 *      
  	                 *      Ayuda: https://www.youtube.com/watch?v=8kekLnSUo4o				 
 					 **/
 public class GestionPersistencia  {
+	  //Creo unas variables que se usarán en los métodos de para iniciar y cerrar el entity manager
 	  private EntityManagerFactory emf;
 	  private EntityManager em;
+      //Importante indicar la persistence unit que tiene que hacer referencia a la definida en el xml
 	  private String PERSISTENCE_UNIT_NAME = "UnitPersonas";
 	 
 	  
 	//Método para iniciar el entityManager
 	  public void iniciaEntityManager()  {
+		  //Creo el entity managerFactory y el entity manager le pongo un nombre
+		  //a la persistence unit UnitPersonas
 		  emf = Persistence.createEntityManagerFactory("UnitPersonas");
 		  em = emf.createEntityManager();
 		   }
@@ -51,12 +62,13 @@ public class GestionPersistencia  {
 	  public void insertarP (Persona p) throws RollbackException, Exception{
 		//Creamos objetos entity
 		//Tenemos un objeto EntityManagerFactory utilizamos con Persistence el create y le 
-	    //pasamos el nombre de la persistence unit
+	   
+		  //pasamos el nombre de la persistence unit
 		  EntityManagerFactory emf1 = Persistence.createEntityManagerFactory("UnitPersonas");
 		//Se realiza el createEntityManager() para crear un EntityManager
 		  EntityManager em1 = emf1.createEntityManager();
 		
-		//Usamos metodos del entity para crear transaccion y guardar el objeto en la BBDD
+		//Intentamos dentro de un try Usamor metodos del entity para crear transaccion y guardar el objeto en la BBDD
 		//El entity manager tiene un metodo que nos permite obtener la transaccion en curso o crear una si no existe ninguna
 		 try {
 		 em1.getTransaction().begin();//se activa la transaccion mediante el método begin 
@@ -65,7 +77,7 @@ public class GestionPersistencia  {
 		 } catch (Exception e) {	 
 		 e.printStackTrace();
 		 }finally {
-		 em1.close();
+		 em1.close();//Cerramos ocurra lo que ocurra
 		 }
 	    }
 	  
@@ -108,19 +120,66 @@ public class GestionPersistencia  {
 	
 	// Devuelve la primera persona que coincide con el nombre pasado por parámetro. 
 	
-//	 public Persona recuperarPersona(String nombre){
-//		//Creamos los objetos EntityManagerFactory y EntityManager
-//		EntityManagerFactory emf = Persistence.createEntityManagerFactory("UnitPersonas");
-//		EntityManager em = emf.createEntityManager();
-//		em.getTransaction().begin();//se activa la transaccion mediante el método begin 
-//		Persona pers2 = em.find(Persona.class, nombre);
-//		
-//		pers2.print();
-//		
-//		return pers2;
-// 
-//		}
-	
+		public Persona recuperarPersona(String nombre){
+		//creo objeto  de la clase persona
+		Persona	persona=null;
+		
+		//Creamos los objetos EntityManagerFactory y EntityManager
+		EntityManagerFactory emf2 = Persistence.createEntityManagerFactory("UnitPersonas");
+		EntityManager em2 = emf.createEntityManager();
+		 
+			 
+			// Buscamos  la fila en la base de datos usando el nombre
+			// que ha pasado el usuario como parámetro
+			//hacemos la consulta
+			
+		  List<Persona> personasRec;
+		try {
+			Query qConsultaNombre = em2.createQuery("SELECT * FROM PERSONA WHERE NOMBRE='"
+								+ nombre + "'");
+						 
+			  System.out.println("Recuperando Personas con el nombre: "+qConsultaNombre); 
+				 personasRec = qConsultaNombre.getResultList();
+			      int num_personas=personasRec.size();
+				  for (Persona p: personasRec){
+					  p.print();
+						  
+			 
+			 }
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			 em2.close();//Cerramos ocurra lo que ocurra
+			 }
+		return persona;
+ 
+ } 
+		 //recuperar persona con nombre que Prueba no va
+		  public Persona findPersona(String nombre){
+	   System.out.println("Recuperar por nombre");
+	 //creo objeto  de la clase persona
+	 		Persona	persona=null;
+	   //Creamos objetos entity
+	   EntityManagerFactory emf1 = Persistence.createEntityManagerFactory("UnitPersonas");
+			EntityManager em1 = emf1.createEntityManager();
+		try {
+			
+			em1.getTransaction().begin();//se activa la transaccion mediante el método begin 
+			
+			return (Persona) em1.find(Persona.class, nombre);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			em1.close();
+		}
+		return persona;
+		
+		
+		  }
+		
+
 	 //2 intento public  Persona recuperarPersona(String nombre){
 		 //Creamos los objetos EntityManagerFactory y EntityManager
 //		 EntityManagerFactory emf2 = Persistence.createEntityManagerFactory("UnitPersonas");

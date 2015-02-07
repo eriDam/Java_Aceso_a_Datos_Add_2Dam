@@ -8,22 +8,22 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 /**
  * Clase Nónima
- * @class nomina
+ *  
  * 
  * @author erika_000
  * 
  * */
 
 //Definiremos la entidad para que sea persistente
+
 @Entity
 public class Nomina implements Serializable{
 	//utilizamos el id para decir que será retribucion clave primaria, para marcar el atributo de la clase
 	@Id
-	//indicammos que va a ser clave autogenerada
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	
-	private float retribucion;
+	@GeneratedValue(strategy=GenerationType.AUTO)//indicammos que va a ser clave autogenerada
 	private int id; //Id clave autogenerada
+	private float retribucion;
+	
 	 
 	// Persona es la clase propietaria de la relación con Nómina.
 	// 1 sola nómina está asociada a 1 sola persona.

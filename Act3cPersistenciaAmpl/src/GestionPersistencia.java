@@ -10,22 +10,29 @@ import javax.persistence.Query;
 import javax.persistence.RollbackException;
 import javax.persistence.TypedQuery;
 
-					/*
-					 * Para crear un entityManager necesitamos:
-					 * 	 -1 fichero persistence.xml donde se especificará un peristence unit
-					 *  	o varias si se quiere, ubicado en META-INF.
-					 *   -Se necesita agregar al proyecto, en el build path las 3 librerias:
-					 * 			 eclipseLink.jar
-					 * 			 javax.persistence_2.1.0v...jar
-					 * 			 mysql-conector-java5.1.31.jar
-					 * 	-Crear un entityManager a partir de esta UP unidad de persistencia(peristence unit)
-					 * 	-Obtener el entityManager 		
-					 * 		Código:
-                     * 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("UnitPersonas");
- 	                 *      EntityManager em = emf.createEntityManager();
- 	                 *      
- 	                 *      Ayuda: https://www.youtube.com/watch?v=8kekLnSUo4o				 
-					 **/
+/*
+ * Para crear un entityManager necesitamos:
+ * 	 -1º fichero persistence.xml donde se especificará un peristence unit
+ *  	o varias si se quiere, ubicado en META-INF.
+ *  
+ *   -2º Si queremos utilizar JPA Se necesita agregar al proyecto, en el build path las 3 librerias
+ *   externas que estan en el eclipse link descargado:
+ * 			 eclipseLink.jar
+ * 			 javax.persistence_2.1.0v...jar
+ * 			 mysql-conector-java5.1.31.jar
+ * 
+ * 	-3º Crear un entityManager a partir de esta UP unidad de persistencia(peristence unit)
+ * 
+ * 	-4º Obtener el entityManager 		
+ * 		Código:
+ * 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("UnitPersonas");
+  *      EntityManager em = emf.createEntityManager();
+  *  -5º Arrancar el sevidor con Xampp (es el que uso), arrancamos php(para el phpMyadmin)y Mysql
+  *  
+  *  -6º Run java aplication por si no va bien y conecta y ejecuta la app
+  *      
+  *      Ayuda: https://www.youtube.com/watch?v=8kekLnSUo4o				 
+ **/
 public class GestionPersistencia  {
 	  private EntityManagerFactory emf;
 	  private EntityManager em;

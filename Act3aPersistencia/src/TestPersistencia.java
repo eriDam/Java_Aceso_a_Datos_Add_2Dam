@@ -17,6 +17,10 @@ public class TestPersistencia {
 				System.out.println("Persona creada ok");
 				gp.recuperarPersonas();
 				//gp.recuperarPersona("Paco");//No recupera y salta excep
+				
+				System.out.println("Recupero: ");
+				Persona p3 = new Persona();
+				p3=gp.findPersona("Paco");
 		}
 	         
 	 	      catch(Exception ex)      {

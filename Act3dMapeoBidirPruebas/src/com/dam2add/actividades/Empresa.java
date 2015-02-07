@@ -10,13 +10,14 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 //Definiremos la entidad para que sea persistente
+
 @Entity
 public class Empresa implements Serializable {
 			//utilizamos el id para decir que será nombre  clave primaria, para marcar el atributo de la clase
 			@Id
 			@GeneratedValue (strategy=GenerationType.AUTO)
 			private int id; //el id será la clave autogenerada
-			private String nombre;
+			private String nombre=null;
 			
 			//Marcamos la relacion: OneToMany es una de las anotaciones mas habituales a nivel de JPA y se encarga de generar
 			//una relación de uno a muchos con la clase persona (una Empresa puede tener muchas personas)
@@ -26,6 +27,10 @@ public class Empresa implements Serializable {
 			@OneToMany (cascade = CascadeType.ALL, mappedBy = "empresa")
 			private List<Persona> personas;
 			
+			//constructor por defecto
+			public Empresa(){
+				
+			}
 			//Constructor no incluyendo persona 
 			public Empresa( String n )  {
 				this.nombre=n;

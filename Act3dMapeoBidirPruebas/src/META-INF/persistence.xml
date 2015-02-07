@@ -1,21 +1,29 @@
-<?xml version="1.0" encoding="UTF-8"?><?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- La configuración de los entities managers factories se hace a traves de este fichero
+	 l4 cabecera igual siempre  -->
 <persistence xmlns="http://java.sun.com/xml/ns/persistence"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
 	version="2.0">
-
-	<persistence-unit name="UnitPersonas3d" transaction-type="RESOURCE_LOCAL">
+	<!-- Dentro de cada persistence-unit,(si tenemos otra, la colocamos a continuacion)
+	 está el elemento provider, que es el que tiene la clase principal de la herramienta 
+	 que implementará JPA, el provider será este, ya que indica que vamos a usar eclipse -->
+	<persistence-unit name="UnitPersonas" transaction-type="RESOURCE_LOCAL"><!-- Se le pone un nombre -->
 		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+		<!--se puede incluir el conjunto de clases de  nuestra app q tienen que ser considerados como entitys 
+		y que por lo tanto serán objetos de persitencia.(TABLAS)
+		Las clases que queremos hacer persistentes, se definen como class en este caso solo tengo una-->
 		<class>Persona</class>
 		<class>Empresa</class>
 		<class>Nomina</class>
-		<properties>
+		<properties><!-- serie de parámetros que hay que definir-->
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
 			<property name="javax.persistence.jdbc.user" value="root" />
 			<property name="javax.persistence.jdbc.password" value="" />
-			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost/personas" />
-			<!-- EclipseLink should create the database schema automatically -->
-      		<property name="eclipselink.ddl-generation" value=""drop-and-create-tables" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost/personas" /><!-- Nombre de la bd -->
+			<!-- EclipseLink should create the database schema automatically 
+			     en esta propiedad Definimos que sino existe una tabla persona la crearemos-->
+      		<property name="eclipselink.ddl-generation" value="drop-and-create-tables" /><!--Utilizo este valor ya q estoy en modo pruebas-->
       		</properties>
 	</persistence-unit>
 	

@@ -97,7 +97,7 @@ public class TestPersistencia {
 				
 				// Imprimimos todas las personas de la lista
 				for(Persona p: personas) {
-					p.print();
+					p.toString();
 				}
 		 
 			
@@ -123,7 +123,7 @@ public class TestPersistencia {
 				
 				// Imprimimos todas las personas de la lista
 				for(Persona p: personas) {
-					p.print();
+					p.toString();
 				}
 			}
 		}
