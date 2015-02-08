@@ -15,12 +15,17 @@ public class TestPersistencia {
 				gp.insertarP(p);
 				gp.insertarP(p2);
 				System.out.println("Persona creada ok");
-				gp.recuperarPersonas();
-				//gp.recuperarPersona("Paco");//No recupera y salta excep
+					System.out.println("Recupero: ");
+					gp.recuperarPersonas();
+					
+					
+				gp.recuperarPersonaE("Paco");//No recupera y salta excep
 				
-				System.out.println("Recupero: ");
-				Persona p3 = new Persona();
-				p3=gp.findPersona("Paco");
+			
+				 
+				gp.recuperarPersonaE("Paco");
+				
+				 gp.findPersona("Paco");
 		}
 	         
 	 	      catch(Exception ex)      {

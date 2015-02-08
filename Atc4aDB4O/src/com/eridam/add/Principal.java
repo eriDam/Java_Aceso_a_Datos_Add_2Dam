@@ -12,7 +12,7 @@ public class Principal {
 		 * metodo openFile pasandole el nombre del fichero donde queremos
 		 * guardar la bd, en los recursos del proyecto, se le asigna a 1 objeto
 		 * de tipo ObjectContainer De esta forma se abre la conexión y permanece
-		 * abiertohasta q se cierre con el metodo cerrar conexion creado
+		 * abierto hasta q se cierre con el metodo cerrar conexion creado
 		 * llamando a close, lo realizaremos dentro d un finally para
 		 * asegurarnos que se cierra
 		 * */

@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.basex.core.Context;
@@ -125,11 +126,11 @@ public class GestionBaseX {
 			/**Conectamos a la Bd*/
 			conectar();
 		
-			//List<Persona> listaPers = new ArrayList();
+			List<Persona> listaPers = new ArrayList();
 			/**Creamos un string para realizar la Consulta*/
 			//String cadConsulta ="for $c in doc('personas')/personas/persona return $c/nombre";
 		    String cadConsulta = "doc ('personas')/personas/persona[nombre='"+nombre+"']";
-		   //listaPers.add(cadConsulta);
+		   //
 	   
 		    /**Ejecutamos consulta*/
 		    System.out.println("Ejecutada la consulta: " + cadConsulta);
@@ -141,7 +142,9 @@ public class GestionBaseX {
 		} finally {
 			cerrarSesion();
 		}
-	return null;
+		return null;
+	
+
 	 }
      
 

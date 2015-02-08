@@ -26,7 +26,7 @@ public class Connect {
 			 * driver que vamos a utilizar.
 			 * 
 			 *Despues generar (casteando) un objeto XQDataSource 
-			 * haremos un  Class.forName de ese driver que queremos utilizar*/
+			 * haremos un  Class.forName de ese driver que queremos utilizar para BaseX este*/
 			XQDataSource xqs = (XQDataSource) Class.forName("net.xqj.basex.BaseXXQDataSource").newInstance();
 			
 			/**Realizamos un BUCLE for para recorrer las propiedades del vector y que nos las muestre */

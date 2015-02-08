@@ -16,19 +16,21 @@ public class GestionPersistencia {
 	 * S.O.D.A.: Simple Object Database Access / Acceso Simple a Bases de Datos de Objetos.
 	 *  Descender y restringir son básicamente las ideas principales con S.O.D.A.. Descender por una
 	 * consulta da como resultado otra consulta, a la cual
-	 * podemos descender nuevamente y realizar la restricción que nos interese:
+	 * podemos descender nuevamente y realizar la restricción que nos interese, (seoleccionando los nodos que nos
+	 * interesen)buscar patrones que nos interesan
 	 * 
 	 * Q.B.E.: Query By Example / Consulta por Ejemplo o Plantilla. •
 	 * N.Q.: Native Queries / Consultas Nativas
 	 */
 
 	/**
-	 * Método que Permite añadir la persona pasada por parámetro.
+	 * Método que Permite añadir la persona pasada por parámetro., Le paso el Objectcontainer que tengo en la clase principal y la persona
 	 */
 
 	public static void insertarPersona(ObjectContainer baseDatos,
 			Persona persona) {
 		try {
+			//Utilizando el método store y pasandole el objeto persona
 			baseDatos.store(persona);
 			/**
 			 * Se inserta igualmente aunque no se realice el commit, pero para
@@ -61,10 +63,17 @@ public class GestionPersistencia {
      * Permite realizar una consulta SODA cuyo resultado sean todos las personas
      *
      * @param baseDatos la base de datos desde la que se va a operar
+     * 
+     * 1 se define un a consulta con Query query = ,   nos quedaremos con el nodo raiz instanciado
+     * 
+     * 2 instanciamos las clases que queremos recuperar mediante constrain
+     * 
+     * 3 ejecutamos la consulta query.execute();, va a devolver un conjunto de objetos,ObjectSet resultado, se recorre la lista y se imprime el resultado
+     * 
      */
     public static void consultaSODATodasPersonas(ObjectContainer baseDatos) {
-        Query query = baseDatos.query();
-        query.constrain(Persona.class);//declara las restricciones
+        Query query = baseDatos.query();//define una consulta y nos quedaremos con el nodo raiz instanciado
+        query.constrain(Persona.class);//constrain declara las restricciones y las clases que queremos recuperar
         ObjectSet resultado = query.execute();
         imprimirResultadoConsulta(resultado);
     }
@@ -79,9 +88,11 @@ public class GestionPersistencia {
 			Query q = baseDatos.query();
 			//  Indicamos el objeto contra el cual se realizará la consulta
 			q.constrain(Persona.class);
-			/**creamos el constraint diciendo que el campo donde lo tiene que aplicar es nombre y la 
-			restricion es el parametro nombre*/
-			Constraint constraint = q.descend("nombre").constrain(nombre);
+			/**creamos el constraint diciendo que el campo donde lo tiene que aplicar es o se llama nombre  y la 
+			restricion es el parametro nombre que escribirá el usuario, con DESCENT (FILTRAMOS)bajaremos un nivel en el arbol 
+			de jeraquía de objetos hasta nombre
+			*/
+			Constraint constraint = q.descend("nombre").constrain(nombre);//filtramos con descent
 			List<Persona> resultado = q.execute();
 		
 			for (Persona p2 : resultado) {

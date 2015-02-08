@@ -38,14 +38,14 @@ public class GestionPersistencia  {
 	  private EntityManagerFactory emf;
 	  private EntityManager em;
       //Importante indicar la persistence unit que tiene que hacer referencia a la definida en el xml
-	  private String PERSISTENCE_UNIT_NAME = "UnitPersonas";
+	  private String PERSISTENCE_UNIT_NAME = "UnitPersonasDos";
 	 
 	  
 	//Método para iniciar el entityManager
 	  public void iniciaEntityManager()  {
 		  //Creo el entity managerFactory y el entity manager le pongo un nombre
 		  //a la persistence unit UnitPersonas
-		  emf = Persistence.createEntityManagerFactory("UnitPersonas");
+		  emf = Persistence.createEntityManagerFactory("UnitPersonasDos");
 		  em = emf.createEntityManager();
 		   }
 	
@@ -64,7 +64,7 @@ public class GestionPersistencia  {
 		//Tenemos un objeto EntityManagerFactory utilizamos con Persistence el create y le 
 	   
 		  //pasamos el nombre de la persistence unit
-		  EntityManagerFactory emf1 = Persistence.createEntityManagerFactory("UnitPersonas");
+		  EntityManagerFactory emf1 = Persistence.createEntityManagerFactory("UnitPersonasDos");
 		//Se realiza el createEntityManager() para crear un EntityManager
 		  EntityManager em1 = emf1.createEntityManager();
 		
@@ -101,7 +101,7 @@ public class GestionPersistencia  {
 	public List<Persona>recuperarPersonas(){
 			 
 		//Creamos los objetos EntityManagerFactory y EntityManager
-		EntityManagerFactory emf1 = Persistence.createEntityManagerFactory("UnitPersonas");
+		EntityManagerFactory emf1 = Persistence.createEntityManagerFactory("UnitPersonasDos");
 		EntityManager em1 = emf1.createEntityManager();
 		 
 		//hacemos la consulta
@@ -120,69 +120,71 @@ public class GestionPersistencia  {
 	
 	// Devuelve la primera persona que coincide con el nombre pasado por parámetro. 
 	
-		public Persona recuperarPersona(String nombre){
-		//creo objeto  de la clase persona
-		Persona	persona=null;
+//		public Persona recuperarPersona(String nombre){
+//		//creo objeto  de la clase persona
+//		Persona	persona=null;
+//		
+//		//Creamos los objetos EntityManagerFactory y EntityManager
+//		EntityManagerFactory emf2 = Persistence.createEntityManagerFactory("UnitPersonasDos");
+//		EntityManager em2 = emf2.createEntityManager();
+//		 
+//			 
+//			// Buscamos  la fila en la base de datos usando el nombre
+//			// que ha pasado el usuario como parámetro
+//			//hacemos la consulta
+//			
+//		  List<Persona> personasRec;
+//		try {
+//			Query qConsultaNombre = em2.createQuery("SELECT * FROM PERSONA WHERE NOMBRE='" + nombre+ "'");
+//						 
+//			  System.out.println("Recuperando Personas con el nombre: "+qConsultaNombre); 
+//				 personasRec = qConsultaNombre.getResultList();
+//			      int num_personas=personasRec.size();
+//				  for (Persona p: personasRec){
+//					  p.print();
+//						  
+//			 
+//			 }
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}finally {
+//			 em2.close();//Cerramos ocurra lo que ocurra
+//			 }
+//		return persona;
+// 
+// } 
 		
-		//Creamos los objetos EntityManagerFactory y EntityManager
-		EntityManagerFactory emf2 = Persistence.createEntityManagerFactory("UnitPersonas");
-		EntityManager em2 = emf.createEntityManager();
-		 
-			 
-			// Buscamos  la fila en la base de datos usando el nombre
-			// que ha pasado el usuario como parámetro
-			//hacemos la consulta
-			
-		  List<Persona> personasRec;
-		try {
-			Query qConsultaNombre = em2.createQuery("SELECT * FROM PERSONA WHERE NOMBRE='"
-								+ nombre + "'");
-						 
-			  System.out.println("Recuperando Personas con el nombre: "+qConsultaNombre); 
-				 personasRec = qConsultaNombre.getResultList();
-			      int num_personas=personasRec.size();
-				  for (Persona p: personasRec){
-					  p.print();
-						  
-			 
-			 }
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}finally {
-			 em2.close();//Cerramos ocurra lo que ocurra
-			 }
-		return persona;
- 
- } 
-		 //recuperar persona con nombre que Prueba no va
+ 		 //recuperar persona con nombre que SS
 		  public Persona findPersona(String nombre){
 	   System.out.println("Recuperar por nombre");
-	 //creo objeto  de la clase persona
-	 		Persona	persona=null;
-	   //Creamos objetos entity
-	   EntityManagerFactory emf1 = Persistence.createEntityManagerFactory("UnitPersonas");
+ 
+ 	   //Creamos objetos entity
+	   		EntityManagerFactory emf1 = Persistence.createEntityManagerFactory("UnitPersonasDos");
 			EntityManager em1 = emf1.createEntityManager();
-		try {
-			
-			em1.getTransaction().begin();//se activa la transaccion mediante el método begin 
-			
-			return (Persona) em1.find(Persona.class, nombre);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}finally{
-			em1.close();
+	
+			//Recuperamos la persona pasada por parámetro
+			Persona persona = em.getReference(Persona.class, nombre);
+			persona.print();
+			return persona;		
 		}
-		return persona;
-		
-		
-		  }
-		
+		  
+		//recuperar persona con nombre que SALTA EXCEPC
+		  public Persona recuperarPersonaE(String nombre){
+			//Creamos los objetos EntityManagerFactory y EntityManager
+			EntityManagerFactory emf = Persistence.createEntityManagerFactory("UnitPersonasDos");
+			EntityManager em = emf.createEntityManager();
 
+			Persona emp = em.find(Persona.class, nombre);
+			emp.print();
+
+			return emp;
+		
+			
+			}
 	 //2 intento public  Persona recuperarPersona(String nombre){
 		 //Creamos los objetos EntityManagerFactory y EntityManager
-//		 EntityManagerFactory emf2 = Persistence.createEntityManagerFactory("UnitPersonas");
+//		 EntityManagerFactory emf2 = Persistence.createEntityManagerFactory("UnitPersonasDos");
 //		 EntityManager em2 = emf2.createEntityManager();
 //		 Persona pers2 = em2.find(Persona.class, nombre);
 //		 String query = "SELECT p.nombre FROM Persona p WHERE p.nombre = '" + nombre+ "'";
@@ -192,7 +194,7 @@ public class GestionPersistencia  {
       // 3 intento Devuelve la primera persona que coincide con el nombre pasado por parámetro. 
 //         public void Persona recuperarPersona(String nombre){
 //         //Creamos los objetos EntityManagerFactory y EntityManager
-//         EntityManagerFactory emf1 = Persistence.createEntityManagerFactory("UnitPersonas");
+//         EntityManagerFactory emf1 = Persistence.createEntityManagerFactory("UnitPersonasDos");
 //         EntityManager em1 = emf1.createEntityManager();
 //         // Query q = em1.createQuery("SELECT p FROM Persona p where nombre").getResultList();
 //         Persona pers = em1.find(Persona.class, nombre);

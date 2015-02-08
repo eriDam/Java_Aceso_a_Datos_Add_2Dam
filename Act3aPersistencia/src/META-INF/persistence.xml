@@ -9,7 +9,7 @@
 	<!-- Dentro de cada persistence-unit,(si tenemos otra, la colocamos a continuacion)
 	 está el elemento provider, que es el que tiene la clase principal de la herramienta 
 	 que implementará JPA, el provider será este, ya que indica que vamos a usar eclipse -->
-	<persistence-unit name="UnitPersonas" transaction-type="RESOURCE_LOCAL"><!-- Se le pone un nombre -->
+	<persistence-unit name="UnitPersonasDos" transaction-type="RESOURCE_LOCAL"><!-- Se le pone un nombre -->
 		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 		
 		<!--se puede incluir el conjunto de clases de  nuestra app q tienen que ser considerados como entitys 
@@ -22,7 +22,7 @@
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
 			<property name="javax.persistence.jdbc.user" value="root" />
 			<property name="javax.persistence.jdbc.password" value="" />
-			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost/personas" /><!-- url con la bd. LocalHost Nombre de la bd -->
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost/personasDos" /><!-- url con la bd. LocalHost Nombre de la bd -->
 			<!-- EclipseLink should create the database schema automatically 
 			     en esta propiedad Definimos que sino existe una tabla persona la crearemos-->
       		<property name="eclipselink.ddl-generation" value="drop-and-create-tables" /><!--Utilizo este valor ya q estoy en modo pruebas-->
